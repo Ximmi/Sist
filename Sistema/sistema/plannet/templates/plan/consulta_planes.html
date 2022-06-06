@@ -1,0 +1,551 @@
+{% extends "base.html" %}
+
+{% block titulo %} Plan de negocio {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{%bootstrap_css%}
+{% bootstrap_javascript %}
+<div class="container-fluid">
+    <div class="row flex-nowrap">
+        <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+            <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                    <span class="fs-5 d-none d-sm-inline">Menu</span>
+                </a>
+                <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link align-middle px-0">
+                            <i class="fs-4 bi-house"></i> <span class="ms-1 d-none d-sm-inline"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Grupos</span> </a>
+                        <ul class="collapse show nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Group</span> 1 </a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Group</span> 2 </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle ">
+                            <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Equipos</span></a>
+                        <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
+                            <li class="w-100">
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 1</a>
+                            </li>
+                            <li>
+                                <a href="#" class="nav-link px-0"> <span class="d-none d-sm-inline">Item</span> 2</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#" class="nav-link px-0 align-middle">
+                            <i class="fs-4 bi-people"></i> <span class="ms-1 d-none d-sm-inline">Simulador de escenarios</span> </a>
+                    </li>
+                </ul>
+                <hr>
+            </div>
+        </div>
+        <div class="col py-3">
+            <div class="row">
+                <div class="col-sm">
+                    <h1 class="display-6">Grupo: </h1>
+                </div>
+                <div class="col-sm">
+                    <h1 class="display-6">Equpo: Team_12</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="container pt-2 pb-auto mb-1 me-3 border rounded text-center">
+                            <h5>Plan de negocio</h5>
+                                   <!--modificacion-->
+                                   <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                      <a class="nav-link active" data-bs-toggle="tab" href="#t0">Tema 0</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t1">Tema 1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t2">Tema 2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t3">Tema 3</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t4">Tema 4</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t5">Tema 5</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t6">Tema 6</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t7">Tema 7</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t8">Tema 8</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t9">Tema 9</a>
+                                      </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-bs-toggle="tab" href="#t10">Tema 10</a>
+                                    </li>
+
+                                  </ul>
+                                
+                                  <!-- Tab panes -->
+                                  <div class="tab-content">
+                                    <!--Tema 0-->
+                                    <div id="t0" class="container tab-pane active"><br>
+                                        <h3>Tema 0: Introducción </h3>
+                                            <div class="container text-start p-2 my-2 rounded-3 border border-primary">
+                                                <div class="custom-control custom-switch float-end">
+                                                    <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                    <label class="custom-control-label" for="customSwitch">Activar</label>
+                                                </div>
+                                                <h4>Introducción al plan de negocios de Oscar Hugo Pedraza</h4>
+                                            </div>
+                                    </div>
+                                    <!--Tema 1-->
+                                    <div id="t1" class="container tab-pane fade"><br>
+                                        <h3>Tema 1: Descripción del negocio</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Definir el negocio</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Misión, visión y objetivos</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Alianzas estratégicas</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Análisis FODA</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 2-->
+                                    <div id="t2" class="container tab-pane fade"><br>
+                                        <h3>Tema 2: Portafolio de productos y servicios</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Describir el producto</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>El valor distintivo ante la competencia</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Ciclo de vida del producto </h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2  rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategia para el producto o servicio</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Posicionamiento en el mercado</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Análisis de la industria</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 3-->
+                                    <div id="t3" class="container tab-pane fade"><br>
+                                        <h3>Tema 3: Mercado</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>¿Qué es el mercado?</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Segmentación del mercado</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>La importancia de conocer al cliente</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Comportamiento y tamaño del negocio</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategias de ventas</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategias de precioso</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategias de publicidad</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategias de promoción</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Canales de distribución</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 4-->
+                                    <div id="t4" class="container tab-pane fade"><br>
+                                        <h3>Tema 4: Análisis de la competencia</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Identificar a los competidores</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Las estrategias de los competidores</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Los objetivos de los competidores</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Valoración de la fuerza y debilidad de la competencia</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Reacción de los competidores</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Gobierno como competidor</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 5-->
+                                    <div id="t5" class="container tab-pane fade"><br>
+                                        <h3>Tema 5: Procesos y procedimientos de operación</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Definir materiales y suministros</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Proceso y programa de producción</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Tecnología aplicada</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Similitudes y diferencias con la competencia</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Análisis de la localización</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Análisis de la capacidad instalada</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Infraestructura disponible</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Aspectos ambientales y regulatorios</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 6-->
+                                    <div id="t6" class="container tab-pane fade"><br>
+                                        <h3>Tema 6: La organización y el personal estratégico </h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>El organigrama del negocio</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Aspectos generales de la organización</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Marco legal de la organización</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Personal estratégico para el negocio</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Plan de trabajo para el desarrollo del negocio</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 7-->
+                                    <div id="t7" class="container tab-pane fade"><br>
+                                        <h3>Tema 7: Aspectos económicos y financieros</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>La inversión inicial</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Financiamiento requerido</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Elaboración de los presupuestos</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Plan de tesorería</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estados financieros</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Cálculo de la rentabilidad</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Análisis de la sensibilidad</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Modelo financiero</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 8-->
+                                    <div id="t8" class="container tab-pane fade"><br>
+                                        <h3>Tema 8: Principales riesgos y estrategias de salida</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>¿Cuáles son los riesgos del negocio?</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Medidas para minimizar los riesgos</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Estrategias de salida</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 9-->
+                                    <div id="t9" class="container tab-pane fade"><br>
+                                        <h3>Tema 9: Sistema de seguimiento de la gestión</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Nociones de diagnóstico</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4> Control</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Mecanismos de control</h4>
+                                        </div>
+                                    </div>
+                                    <!--Tema 10-->
+                                    <div id="t10" class="container tab-pane fade"><br>
+                                        <h3>Tema 10: Documentos de apoyo y anexos:</h3>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Documentos de apoyo</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Anexos</h4>
+                                        </div>
+                                        <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                            <div class="custom-control custom-switch float-end">
+                                                <input type="checkbox" class="custom-control-input" id="customSwitch" name="switch">
+                                                <label class="custom-control-label" for="customSwitch">Activar</label>
+                                            </div>
+                                            <h4>Bibliografía</h4>
+                                        </div>
+                                    </div>
+                                  </div>   
+                              
+                                   <!--termino-->  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

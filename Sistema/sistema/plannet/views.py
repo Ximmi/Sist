@@ -194,3 +194,22 @@ def consulta_escenarios(request):
 
 def genera_prediccion(request):
     return render(request, 'predicciones/genera_prediccion.html')
+
+def consulta_planes(request):
+    return render(request,'plan/consulta_planes.html')
+
+#Temas del plan
+def tema0_1(request):
+    return render(request,'temas/tema0_1.html')
+
+def tema1_1(request):
+    return render(request,'temas/tema1_1.html')
+
+def tema1_2(request):
+    return render(request,'temas/tema1_2.html')
+    
+def tema1_3(request):
+    return render(request,'temas/tema1_3.html')
+
+def tema1_4(request):
+    return render(request,'temas/tema1_4.html')

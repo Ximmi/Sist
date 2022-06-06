@@ -1,8 +1,311 @@
 {% extends "base.html" %}
-
 {% block titulo %} Plan de negocio {% endblock %}
-
 {% block contenido %}
-<h3>Plan de negocio</h3>
+{% load bootstrap4 %}
+{% bootstrap_css %}
+<div class="row">
+    <div class="col">
+        <div class="container-fluid p-4 mb-3  bg-info ">
+            <h1 class="display-6 text-light text-center">Proyecto prueba</h1>
+        </div>    
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10"> 
+        <div class="card mb-1">
+            <div class="card-body"></div>
+                <h2 class="card-title text-center">Progreso</h2>
+                <div class="container mb-2">
+                    <div class="progress">
+                        <div class="progress-bar" style="width:20%">20 %</div>
+                    </div>
+                    <h3>Puntuación : </h3>
+                </div>    
+            </div>    
+        </div>
+    <div class="col-sm-1"></div>    
+</div>
+<div class="row">
+    <div class="col-sm-1"></div>    
+    <div class="col-sm-10">
+        <div class="card mb-1">
+            <div class="container pt-2 pb-auto mb-1 me-3 border rounded text-center">
+                <h2>Plan de negocio</h2>
+                       <!--modificacion-->
+                       <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                          <a class="nav-link active" data-bs-toggle="tab" href="#t0">Tema 0</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t1">Tema 1</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t2">Tema 2</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t3">Tema 3</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t4">Tema 4</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t5">Tema 5</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t6">Tema 6</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t7">Tema 7</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t8">Tema 8</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t9">Tema 9</a>
+                          </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-bs-toggle="tab" href="#t10">Tema 10</a>
+                        </li>
 
+                      </ul>
+                    
+                      <!-- Tab panes -->
+                      <div class="tab-content">
+                        <!--Tema 0-->
+                        <div id="t0" class="container tab-pane active"><br>
+                            <h3>Tema 0: Introducción </h3>
+                                <div class="container text-start my-2 rounded-3 border border-primary">
+                                    <h4>Introducción al plan de negocios de Oscar Hugo Pedraza</h4>
+                                    <p class="lead">
+                                        <a class="btn btn-light btn-lg" href="{% url 'tema0_1' %}" role="button">Ir</a>
+                                    </p>
+                                </div>
+                                
+                        </div>
+                        <!--Tema 1-->
+                        <div id="t1" class="container tab-pane fade"><br>
+                            <h3>Tema 1: Descripción del negocio</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                <h4>Definir el negocio</h4>
+                                <p class="lead">
+                                    <a class="btn btn-light btn-lg" href="{% url 'tema1_1' %}" role="button">Ir</a>
+                                </p>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Misión, visión y objetivos</h4>
+                                <p class="lead">
+                                    <a class="btn btn-light btn-lg" href="{% url 'tema1_2' %}" role="button">Ir</a>
+                                </p>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                <h4>Alianzas estratégicas</h4>
+                                <p class="lead">
+                                    <a class="btn btn-light btn-lg" href="{% url 'tema1_3' %}" role="button">Ir</a>
+                                </p>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                <h4>Análisis FODA</h4>
+                                <p class="lead">
+                                    <a class="btn btn-light btn-lg" href="{% url 'tema1_4' %}" role="button">Ir</a>
+                                </p>
+                            </div>
+                        </div>
+                        <!--Tema 2-->
+                        <div id="t2" class="container tab-pane fade"><br>
+                            <h3>Tema 2: Portafolio de productos y servicios</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                <h4>Describir el producto</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary ">
+                                <h4>El valor distintivo ante la competencia</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Ciclo de vida del producto </h4>
+                            </div>
+                            <div class="container text-start p-2 my-2  rounded-3 border border-primary  ">
+                                <h4>Estrategia para el producto o servicio</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 rounded-3 border border-primary  ">
+                                <h4>Posicionamiento en el mercado</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Análisis de la industria</h4>
+                            </div>
+                        </div>
+                        <!--Tema 3-->
+                        <div id="t3" class="container tab-pane fade"><br>
+                            <h3>Tema 3: Mercado</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>¿Qué es el mercado?</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Segmentación del mercado</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>La importancia de conocer al cliente</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Comportamiento y tamaño del negocio</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estrategias de ventas</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estrategias de precioso</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estrategias de publicidad</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estrategias de promoción</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Canales de distribución</h4>
+                            </div>
+                        </div>
+                        <!--Tema 4-->
+                        <div id="t4" class="container tab-pane fade"><br>
+                            <h3>Tema 4: Análisis de la competencia</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Identificar a los competidores</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Las estrategias de los competidores</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Los objetivos de los competidores</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Valoración de la fuerza y debilidad de la competencia</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Reacción de los competidores</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Gobierno como competidor</h4>
+                            </div>
+                        </div>
+                        <!--Tema 5-->
+                        <div id="t5" class="container tab-pane fade"><br>
+                            <h3>Tema 5: Procesos y procedimientos de operación</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Definir materiales y suministros</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Proceso y programa de producción</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Tecnología aplicada</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Similitudes y diferencias con la competencia</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Análisis de la localización</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Análisis de la capacidad instalada</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Infraestructura disponible</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Aspectos ambientales y regulatorios</h4>
+                            </div>
+                        </div>
+                        <!--Tema 6-->
+                        <div id="t6" class="container tab-pane fade"><br>
+                            <h3>Tema 6: La organización y el personal estratégico </h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>El organigrama del negocio</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Aspectos generales de la organización</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Marco legal de la organización</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Personal estratégico para el negocio</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Plan de trabajo para el desarrollo del negocio</h4>
+                            </div>
+                        </div>
+                        <!--Tema 7-->
+                        <div id="t7" class="container tab-pane fade"><br>
+                            <h3>Tema 7: Aspectos económicos y financieros</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>La inversión inicial</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Financiamiento requerido</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Elaboración de los presupuestos</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Plan de tesorería</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estados financieros</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Cálculo de la rentabilidad</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Análisis de la sensibilidad</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Modelo financiero</h4>
+                            </div>
+                        </div>
+                        <!--Tema 8-->
+                        <div id="t8" class="container tab-pane fade"><br>
+                            <h3>Tema 8: Principales riesgos y estrategias de salida</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>¿Cuáles son los riesgos del negocio?</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Medidas para minimizar los riesgos</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Estrategias de salida</h4>
+                            </div>
+                        </div>
+                        <!--Tema 9-->
+                        <div id="t9" class="container tab-pane fade"><br>
+                            <h3>Tema 9: Sistema de seguimiento de la gestión</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Nociones de diagnóstico</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4> Control</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Mecanismos de control</h4>
+                            </div>
+                        </div>
+                        <!--Tema 10-->
+                        <div id="t10" class="container tab-pane fade"><br>
+                            <h3>Tema 10: Documentos de apoyo y anexos</h3>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Documentos de apoyo</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Anexos</h4>
+                            </div>
+                            <div class="container text-start p-2 my-2 rounded-3 border border-primary  ">
+                                <h4>Bibliografía</h4>
+                            </div>
+                        </div>
+                      </div>   
+                  
+                       <!--termino-->  
+        </div>
+        </div>
+    </div>    
+    <div class="col-sm-1"></div>
+</div>    
 {% endblock %}
