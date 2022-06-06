@@ -3,3 +3,21 @@
     border-style:solid;
     border-width: 1px;
 }
+
+.btn-colores{
+    border-radius: 20px;
+    background-color: #90dec5; 
+    border-color: #90dec5;
+}
+
+.btn-lila{
+    border-radius: 20px;
+    background-color: #d9cae0; 
+    border-color: #d9cae0;
+}
+
+.contenedor{
+    position: relative;
+    display: inline-block;
+    text-align: center;
+}

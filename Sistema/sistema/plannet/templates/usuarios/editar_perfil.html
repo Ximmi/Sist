@@ -1,43 +1,55 @@
-{% extends "base_usuarios.html" %}
-
+{% extends "base.html" %}
 {% block titulo %} Perfil {% endblock %}
-
 {% block contenido %}
+{% load static %}
+{% load bootstrap4 %}
 
-<h3>Edita tu perfil</h3>
+{%if user.is_authenticated %}
 <div class="row">
-    <div class="col-sm-3">
+    <div class="col-sm-2">
     </div>
-    <div class="col-sm-6">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title text-center">Crea una cuenta</h5>
-          <form enctype="multipart/form-data" method="post" class="form">
-              {% csrf_token %}
-              {% for campo in formulario %}
-                <div class="form-group">
-                    <label class="form-label" for="">{{ campo.label}}</label>
-                    <input 
-                    type="{{ campo.field.widget.input_type }}" 
-                    class="form-control" 
-                    name="{{ campo.name }}" 
-                    id="" 
-                    aria-describedby="helpId" 
-                    placeholder="{{ campo.label }}"
-                    value="{{ campo.value | default: ' ' }}"
-                    />
-                </div>
-                <div class="col-12 help-text">{{ campo.errors }}</div>
-                <br>
-                {% endfor %}
-                
-                <input type="submit" class="btn btn-primary" value="Cambiar">
-            </form>
+    <div class="col-sm-8">
+      <div class="row">
+        <div class="col-sm-2">
+          <img src="{{ user.foto.url }}" class="rounded-circle" height="120" width="120">
+        </div>
+        <div class="col-sm-10">
+          <h2>{{ user.nombre }}  {{ user.apellido }}</h2>
+          <p class="font-weight-light">{{ user.correo }}</p>
+          <p class="font-weight-light">{{user.get_tipo_display}}</p>
+          <br>
         </div>
       </div>
+      
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ subtitulo }}</h5>
+            <form enctype="multipart/form-data" method="post" class="form">
+              <!--Verifica si es una petición válida-->
+              {% csrf_token %}
+              <!--Aquí cargamos el formulario-->
+              {% bootstrap_form formulario %}
+              
+                
+              {% buttons %}
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
+                {{boton}}
+              </button>
+            {% endbuttons %}
+            </form>
+          </div>
+        </div>
+
+      </div>
+        
     </div>
-    <div class="col-sm-3">
+    <div class="col-sm-2">
     </div>
   </div>
+
+  {% else %}
+  <p>Por favor, inicia sesión para ver un perfil</p>
+  {% endif %}
 
 {% endblock %}

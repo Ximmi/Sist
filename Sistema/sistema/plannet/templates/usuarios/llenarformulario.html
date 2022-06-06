@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block titulo %} Registro {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{% load static %}
+
+
+<div class="row">
+    <div class="col-sm-3">
+    </div>
+    <div class="col-sm-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ subtitulo }}</h5>
+          <form enctype="multipart/form-data" method="post" class="form">
+            <!--Verifica si es una petición válida-->
+            {% csrf_token %}
+            <!--Aquí cargamos el formulario-->
+            {% bootstrap_form formulario %}
+            
+              
+            {% buttons %}
+            <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
+              {{boton}}
+            </button>
+          {% endbuttons %}
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+    </div>
+  </div>
+
+{% endblock %}

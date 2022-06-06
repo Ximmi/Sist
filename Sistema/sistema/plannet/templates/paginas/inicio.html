@@ -4,19 +4,21 @@
 {% load static %}
 <!--div class="p-5 bg-light"-->
     <!--div class="container"-->
+    {%if user.is_authenticated %}
         <div class="row">
             <div class="col-sm-1"></div>
             <div class="col-sm-3">
                 <br><br><br>
-                <h5 class="display-4">Bienvenido al sitio de PlanNet</h5>
-                <p class="lead">Gestiona los planes de negocio con Plannet</p>
+                <h5 class="display-4">Hola, {{ user.nombre }}</h5>
+                <p class="lead">Gestiona tus planes de negocio con Plannet</p>
             </div>
             <div class="col-sm-8">
                 <img class="img-fluid" src="{% static "images/background.png" %}" alt="Fondo">
                 <br><br><br>
             </div>
-
         </div>
+
+
         <div class="row">
             <div class="col-sm-2"></div>
             <div class="col-sm-4">
@@ -47,7 +49,146 @@
             </div>
 
         </div>
+        <br><br>
+        {% else %}
+        <div class="row">
+            
+            <div class="col-sm-1"></div>
+                <div class="col-sm-3">
+                    <br><br><br>
+                    <h5 class="display-4">Bienvenido al sitio de PlanNet</h5>
+                    <p class="lead">Crea un plan de negocios.<br>
+                    Planea tus estados financieros.<br>
+                    Proyecta tus resultados.<br>
+                    Inicia tu aprendizaje.</p>
+                </div>
+                <div class="col-sm-8">
+                    <img class="img-fluid" src="{% static "images/background.png" %}" alt="Fondo">
+                    <br><br><br>
+                </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-10">
+               <h4 class="lead"><em>PlanNet es un sitio creado para facilitar la creación de planes de empresa a
+                   estudiantes de universidad y emprendedores mexicanos que, en conjunto con la expertiz de profesores 
+                   y coaches, podrán sentar las bases de un negocio
+                </em></h4> 
+            </div>
+        </div>
+        <br><br>
+        <div class="row">
+            <div class="col-sm-1"></div>
+            <div class="col-sm-5">
+                <div class="card  border border-info2 rounded shadow p-3 mb-5 bg-body">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">PlanNet para Estudiantes y emprendedores</h5>
+                        <img class="img-fluid" src="{% static "images/gestionee.png" %}" alt="Fondo">
+                        <p class="text-muted text-justify">PlanNet está dedicado a estudiantes de universidad y emprendedores
+                            en México como apoyo para conocer los elementos necesarios para la puesta en marcha de un negocio.<br>
+                        </p>
+                        <p class="text-muted text-justify">
+                            Para ello, se brinda un curso guiado por un profesor o coach a través del cual se conocerán los aspectos
+                            que integran a un plan de empresa. Además, se podrá acceder a herramientas para planear los
+                            estados financieros, realizar proyecciones, simular escenarios y generar predicciones.
+                        </p>
+                        <!--p class="lead">
+                            <a class="btn btn-light btn-lg" href="" role="button">Ir</a>
+                        </p-->
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+                <div class="card border border-info2 rounded shadow p-3 mb-5 bg-body">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">PlanNet para profesores y coaches</h5>
+                        <img class="img-fluid" src="{% static "images/gestioncp.png" %}" alt="Fondo">
+                        <p class="text-muted text-justify">PlanNet es una herramienta integral en la formación de planes de negocio, para esto es fundamental
+                             contar con profesionales que guíen a los estudiantes y emprendedores en el proceso de formación o continuidad de un negocio.
+                              <br><br>Estas personas son los profesores y coaches: expertos que, a través de actividades y su retroalimentación,
+                              podrán enriquecer y complementar el conocimento de las personas que integren sus grupos.
+                        </p>
+                        <!--p class="lead">
+                            <a class="btn btn-light btn-lg" href="" role="button">Ir</a>
+                        </p-->
+                    </div>
+                </div>
+            </div>
 
+        </div>
+        <br><br>
+        <div class="row text-center">
+            <h4 class="lead"><em>Comienza a utilizar PlanNet o conoce a profundidad las herramientas que brindamos como
+                apoyo en la creación del plan de negocio
+             </em></h4>
+             <br>
+             <a href="{% url 'registro' %}">
+                <button class="btn btn-colores">Regístrate</button>
+                <button class="btn btn-lila">Nosotros</button>
+             </a>
+        </div>
+        <br><br>
+        {% endif %}
+
+              <!-- Footer -->
+<footer class="text-center text-lg-start bg-light text-muted">
+    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+      <!-- Left -->
+      <div class="me-5 d-none d-lg-block">
+        <span>Envíanos un mensaje o comentario por correo electrónico:</span>
+      </div>
+      <div>
+        <a href="{% url 'contacto' %}" class="me-4 text-reset">
+          <i class="fab fa-google"></i>
+          Contacto
+        </a>
+      </div>
+    </section>
+  
+    <!-- Section: Links  -->
+    <section class="">
+      <div class="container text-center text-md-start mt-5">
+        <div class="row mt-3">
+          <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              <i class="fas fa-gem me-3"></i>Creadoras
+            </h6>
+            <p>
+              PlanNet es un sistema creado por Arantxa Ximena Cervantes Patlán y Alejandra García Díaz.
+            </p>
+          </div>
+          <div class="col-md-5 col-lg-2 col-xl-2 mx-auto mb-4">
+            <!-- Links -->
+            <h6 class="text-uppercase fw-bold mb-4">
+              Páginas de interés
+            </h6>
+            <p>
+              <a href="{% url 'nosotros' %}" class="text-reset">Nosotros</a>
+            </p>
+            <p>
+              <a href="{% url 'politicas' %}" class="text-reset">Políticas de Privacidad</a>
+            </p>
+            <p>
+              <a href="{% url 'terminos' %}" class="text-reset">Términos y Condiciones</a>
+            </p>
+          </div>
+          
+          <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+            <h6 class="text-uppercase fw-bold mb-4">
+              Contacto
+            </h6>
+            <p>
+              <i class="fas fa-envelope me-3"></i>
+              sistemaplannet@gmail.com
+            </p>
+            <p><i class="fas fa-phone me-3"></i> 56 1017 6383</p>
+          </div>
+          <!-- Grid column -->
+        </div>
+        <!-- Grid row -->
+      </div>
+    </section>
+  </footer>
     <!--/div-->
 <!--/div-->
 

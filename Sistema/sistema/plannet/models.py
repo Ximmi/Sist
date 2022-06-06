@@ -1,14 +1,31 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from plannet.manager import UserManager
+
 
 # Create your models here.
-class Usuarios(models.Model):
-    id_usuario = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=50, verbose_name="Nombre")
-    apellido = models.CharField(max_length=50, verbose_name="Apellido")
-    correo = models.EmailField(max_length=50, verbose_name="Correo")
-    password = models.CharField(max_length=30, verbose_name="Password")
-    tipo = models.IntegerField()
-    foto = models.ImageField(upload_to='images/', verbose_name="Foto", null=True)
+class Usuarios(AbstractBaseUser, PermissionsMixin):
+
+    CHOICES = [('1', "Estudiante"), ('2', "Emprendedor"), ('3', "Profesor"), ('4', "Coach") ]
+    nombre = models.CharField(max_length=50, verbose_name="Nombre", null=False)
+    apellido = models.CharField(max_length=50, verbose_name="Apellido", null=False)
+    correo = models.EmailField(max_length=50, verbose_name="Correo", null=False, unique=True)
+    foto = models.ImageField(upload_to='images/', verbose_name="Foto", null=True, default='')
+    id_grupo = models.ForeignKey('Grupos', on_delete=models.CASCADE, blank=True, null=True)
+    tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
+    activo = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+
+    USERNAME_FIELD = 'correo'
+    objects = UserManager()
+    
+
+    class Meta:
+        verbose_name = "Usuario"
+        verbose_name_plural = "Usuarios"
+        ordering = ['id', 'nombre']
+        permissions = [('ingresa_grupo', 'Ingresa a grupo'), ('crea_grupo', 'Crea grupo')]
+
 
     def __str__(self):
         fila = "Usuario: " + self.nombre + " " + self.apellido + "     Correo: " + self.correo
@@ -18,4 +35,56 @@ class Usuarios(models.Model):
         self.foto.storage.delete(self.foto.name)
         super().delete()
 
+    
+
+
+class Estudiante(Usuarios):
+    boleta = models.CharField(max_length=50, verbose_name="Boleta", null=True, default=None)
+
+    # objects = EstudianteManager()
+
+    class Meta:
+        proxy = False
+
+    def __str__(self):
+        return  f"Estudiante: {self.nombre} {self.apellido} email: {self.correo}"
+
+
+class Emprendedor(Usuarios):
+    class Meta:
+        proxy = False
+
+    def __str__(self):
+        return  f"Emprendedor: {self.nombre} {self.apellido} email: {self.correo}"
+
+class Profesor(Usuarios):
+
+    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
+    clave_institucion = models.CharField(max_length=50, verbose_name="Clave de institucion", null=True, default=None)
+    class Meta:
+        proxy = False
+
+    def __str__(self):
+        return  f"Profesor: {self.nombre} {self.apellido} email: {self.correo}"
+
+class Coach(Usuarios):
+    
+    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
+    class Meta:
+        proxy = False
+
+    def __str__(self):
+        return  f"Coach: {self.nombre} {self.apellido} email: {self.correo}"
+
+class Grupos(models.Model):
+    nombre_grupo = models.CharField(max_length=50, verbose_name="Nombre grupo", unique=True)
+    clave = models.CharField(max_length=50, verbose_name="Clave", null=True)
+    id_responsable = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Responsable',null=True, default=None)
+    id_integrante = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Integrante',null=True, default=None)
+
+    def __str__(self):
+        return f"Grupo: {self.nombre_grupo} clave: {self.clave}"
+    
+    def delete(self, using=None, keep_parents=False):
+        super().delete()
 
