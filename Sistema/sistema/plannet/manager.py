@@ -34,3 +34,19 @@ class UserManager(BaseUserManager, models.Manager):
     def create_superuser(self, correo, password=None, **extra_fields):
         return self._create_user(correo, password, True, **extra_fields)
 
+
+
+class GroupManager(models.Manager):
+    def create_grupo(self, nombre_grupo, clave, id_responsable):
+        with transaction.atomic():
+            grupo = self.model(
+                nombre_grupo = nombre_grupo,
+                clave = clave,
+                id_responsable = id_responsable
+            )
+            
+            grupo.save(using=self.db)
+            # asgina el grupo
+                
+        return grupo
+

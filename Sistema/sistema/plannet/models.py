@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from plannet.manager import UserManager
+from plannet.manager import UserManager, GroupManager
 
 
 # Create your models here.
@@ -34,6 +34,13 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     def delete(self, using=None, keep_parents=False):
         self.foto.storage.delete(self.foto.name)
         super().delete()
+
+
+    def trae_grupos(self):
+        from plannet.models import Grupos
+        resultado = Grupos.objects.filter(id_responsable=self).all()
+        return resultado
+
 
     
 
@@ -80,11 +87,18 @@ class Grupos(models.Model):
     nombre_grupo = models.CharField(max_length=50, verbose_name="Nombre grupo", unique=True)
     clave = models.CharField(max_length=50, verbose_name="Clave", null=True)
     id_responsable = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Responsable',null=True, default=None)
-    id_integrante = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Integrante',null=True, default=None)
+
+    objects = GroupManager()
+
+    class Meta:
+        verbose_name = "Grupo"
+        verbose_name_plural = "Grupos"
+        ordering = ['id', 'nombre_grupo']
 
     def __str__(self):
         return f"Grupo: {self.nombre_grupo} clave: {self.clave}"
     
     def delete(self, using=None, keep_parents=False):
         super().delete()
+
 

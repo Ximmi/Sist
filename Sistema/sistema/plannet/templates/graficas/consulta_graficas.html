@@ -3,9 +3,47 @@
 {% block titulo %} Gráficas {% endblock %}
 
 {% block contenido %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2 bg-secondary">
+            <h4 class="text-light">Gráficas</h4>
 
-<h3>Gráficas</h3>
-<p>Aqui se visualizan las graficas</p>
-<p>Intento 1 </p>
-<p>Intento 2 </p>
+            <!-- Navigation links in sidebar-->
+            <a type="button" href=" " class="btn btn-secondary">Gráficas de barras</a><br />
+            <br />
+            <a  type="button" href=" " class="btn btn-secondary">Gráficas lineales</a><br />
+            <br />
+            <a  type="button" href=" " class="btn btn-secondary">Gráficas de área</a><br />
+            <br />
+            <a  type="button" href=" " class="btn btn-secondary">Gráficas de anillo</a><br />
+            <br />
+        </div>
+        <!--Contains the main content
+                of the webpage-->
+        <div class="col-10" style="text-align: justify;">
+            <canvas id="myChart1" width="300" height="200"></canvas>
+            <a type="button" class="btn btn-colores" href=" ">Crear PDF</a>
+        </div>
+        <script type="text/javascript">
+            var ctx = document.getElementById('myChart1').getContext('2d');
+            var myChart1 = new Chart(ctx,{
+                type: 'pie',
+                data: {
+                    labels: [{% for tipo in tipo_list %} '{{tipo}}', {% endfor %}],
+                    datasets : [{
+                        label: 'Tipo',
+                        data: [{% for number in number_list %}, '{{number}}', {%endfor%}],
+                        backgroundColor:[
+                            'rgba(171, 219, 184, 1)',
+                            'rgba(141, 227, 194, 1)',
+                            'rgba(141, 227, 220, 1)',
+                            'rgba(195, 177, 227, 1)',
+                        ],
+                        borderColor: 
+                }]
+                }
+            })
+        </script>
+    </div>
+</div>
 {% endblock %}

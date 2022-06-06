@@ -3,6 +3,7 @@ from . import views
 
 from django.conf import settings
 from django.contrib.staticfiles.urls import static
+from django.contrib.auth import views as auth_views
 
 
 urlpatterns = [
@@ -16,6 +17,9 @@ urlpatterns = [
     path('inicio_sesion', views.inicio_sesion, name='inicio_sesion'),
     path('cerrar_sesion', views.cerrar_sesion, name='cerrar_sesion'),
     path('editar_perfil', views.editar_perfil, name='editar_perfil'),
+     path('cambiar_contraseña', auth_views.PasswordChangeView.as_view(
+        template_name='usuarios/editar_perfil.html',
+        success_url='/'), name='userChangePassword'),
     path('consulta_grupo', views.consulta_grupo, name='consulta_grupo'),
     path('crea_grupo', views.crea_grupo, name='crea_grupo'),
     path('consulta_temas', views.consulta_temas, name='consulta_temas'),

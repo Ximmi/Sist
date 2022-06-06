@@ -5,11 +5,69 @@
 {% load bootstrap4 %}
 
 {%if user.is_authenticated %}
-
+<div class="row"><br /><br /></div>
 {% if perms.plannet.crea_grupo %}
-<a  class="btn btn-light" id="edita" href ="{% url 'editar_perfil' %}">Crea un grupo</button>
+<div class="row">
+    <div class="col-sm-3 m-2">
+        <div class="card  border border-info2 rounded">
+            <div class="card-body text-center">
+                <h5 class="card-title">Crea un grupo</h5>
+                <p>Agrega grupos para comenzar a asignar temas y actividades</p>
+                <a class="btn btn-colores" id="edita" href ="{% url 'crea_grupo' %}">Crea un grupo</a>
+            </div>
+        </div>
+    </div>
+    {% for grupo in grupos %}
+    <div class="col-sm-3 m-2">
+        <div class="card  border border-info2 rounded">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ grupo.nombre_grupo }}</h5>
+                <a class="btn btn-colores" id="edita" href ="{% url 'crea_grupo' %}">Ver grupo</a>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+{% elif perms.plannet.ingresa_grupo %}
+{% if user.id_grupo is None %}
+<div class="row">
+    <div class="col-sm-3"></div>
+    <div class="col-sm-6">
+        <div class="card  border border-info2 rounded">
+            <div class="card-body text-center">
+                <h3 class="card-title">Accede a un grupo</h3>
+                <form enctype="multipart/form-data" method="post">
+                    <!--Verifica si es una petición válida-->
+                {% csrf_token %}
+                <!--Aquí cargamos el formulario-->
+                {% bootstrap_form formulario %}
+                
+                
+                {% buttons %}
+                <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
+                {{boton}}
+            </button>
+          {% endbuttons %}
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+
+    <div class="col-sm-3 m-2">
+        <div class="card  border border-info2 rounded">
+            <div class="card-body text-center">
+                <h5 class="card-title">{{ user.id_grupo.nombre_grupo }}</h5>
+                <a class="btn btn-colores" id="edita" href ="">Ver grupo</a>
+            </div>
+        </div>
+    </div>
 
 {% endif %}
+{% endif %}
+
 {% else %}
   <p>Por favor, inicia sesión para consultar los grupos de un perfil</p>
 {% endif %}

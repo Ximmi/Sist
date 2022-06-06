@@ -65,7 +65,28 @@ class LoginForm(forms.Form):
 
 
 
-class GrupoForm(forms.ModelForm):
+class GrupoForm(forms.Form):
+    nombre_grupo = forms.CharField(
+        label='Nombre del grupo', 
+    )
+
+    clave = forms.CharField(
+        label='Clave',
+    )
     class Meta:
         model = Grupos
-        fields = '__all__'
+        fields = ['nombre_grupo', 'clave']
+
+    def clean(self):
+        cleaned_data = super(GrupoForm, self).clean()
+        nombre_grupo = self.cleaned_data['nombre_grupo']
+        clave = self.cleaned_data['clave']
+
+        query = Grupos.objects.filter(nombre_grupo=nombre_grupo, clave=clave).all()
+        print(query)
+        if  len(query) == 0:
+            raise forms.ValidationError('El grupo no existe')
+            self.add_error('clave', "Este es un error")
+        
+        return self.cleaned_data
+        

@@ -3,7 +3,7 @@ from urllib.request import Request
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import Emprendedor, Profesor, Usuarios, Coach, Estudiante, Emprendedor
-from .forms import EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm
+from .forms import EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm, GrupoForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -142,7 +142,7 @@ def editar_perfil(request):
             instance=coach
         )
     elif(tipo == "Estudiante"):
-        estudiante = Estudiante.get(id=request.user.id)
+        estudiante = Estudiante.objects.get(id=request.user.id)
         formulario = EditaEstudianteForm(
             request.POST or None, request.FILES or None,
             instance=estudiante
@@ -162,7 +162,7 @@ def editar_perfil(request):
             messages.success(request, "Perfil actualizado")
             return redirect('inicio')
 
-    return render(request, 'usuarios/editar_perfil.html', {'formulario': formulario, 'subtitulo': " ", 'boton': "Editar"}) 
+    return render(request, 'usuarios/editar_perfil.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar perfil"}) 
 
 
 
@@ -170,10 +170,37 @@ def editar_perfil(request):
 def consulta_grupo(request):
     #usuarios = Usuarios.objects.all()
     #return render(request, 'usuarios/consulta_grupo.html', {'usuarios': usuarios})
-    return render(request, 'usuarios/consulta_grupo.html')
+    formulario = GrupoForm(request.POST or None, request.FILES or None)
+
+    if formulario.is_valid():
+        with transaction.atomic():
+            from .models import Grupos
+            nombre_grupo = formulario.cleaned_data['nombre_grupo']
+            clave = formulario.cleaned_data['clave']
+            grupo = Grupos.objects.filter(nombre_grupo=nombre_grupo, clave=clave).all()[0]
+            #user = Usuarios.objects.filter(id=request.user.id)
+            user = request.user
+            user.id_grupo = grupo
+            user.save()
+            messages.success(request, "Te has inscrito a un grupo")
+            return redirect('inicio')
+
+    context = {'formulario': formulario, 'subtitulo': "Inscríbete en un grupo", 'boton': "Inscribirme", 'grupos': request.user.trae_grupos()}
+    return render(request, 'usuarios/consulta_grupo.html', context=context)
 
 def crea_grupo(request):
-    return render(request, 'usuarios/crea_grupo.html')
+    formulario = GrupoForm(request.POST or None, request.FILES or None)
+    if formulario.is_valid():
+        from .models import Grupos
+        grupo = Grupos.objects.create_grupo(
+            nombre_grupo = formulario.cleaned_data['nombre_grupo'],
+            clave = formulario.cleaned_data['clave'],
+            id_responsable = request.user
+            )
+        messages.success(request, "Grupo agregado")
+        return redirect('inicio')
+    context = {'formulario': formulario, 'subtitulo': "Crea un grupo", 'boton': "Crear"}
+    return render(request, 'usuarios/crea_grupo.html', context=context)
 
 
 def consulta_temas(request):
@@ -185,7 +212,27 @@ def consulta_estados(request):
 
 
 def consulta_graficas(request):
-    return render(request, 'graficas/consulta_graficas.html')
+    tipo_1 = Usuarios.objects.filter(tipo='1').count
+    tipo_1 = int(tipo_1)
+    print("Usuarios estudiantes: " + str(tipo_1))
+
+    tipo_2 = Usuarios.objects.filter(tipo='2').count
+    tipo_2 = int(tipo_2)
+    print("Usuarios estudiantes: " + str(tipo_2))
+
+    tipo_3 = Usuarios.objects.filter(tipo='3').count
+    tipo_3 = int(tipo_3)
+    print("Usuarios estudiantes: " + str(tipo_3))
+
+    tipo_4 = Usuarios.objects.filter(tipo='4').count
+    tipo_4 = int(tipo_4)
+    print("Usuarios estudiantes: " + str(tipo_4))
+
+    tipo_list = ['Estudiante', 'Emprendedor', 'Profesor', 'Coach']
+    number_list = [tipo_1, tipo_2, tipo_3, tipo_4]
+    context = {'tipo_list':tipo_list, 'number_list':number_list}
+
+    return render(request, 'graficas/consulta_graficas.html', context)
 
 
 def consulta_escenarios(request):
