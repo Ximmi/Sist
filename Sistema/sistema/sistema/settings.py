@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'plannet',
     'bootstrap4',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [

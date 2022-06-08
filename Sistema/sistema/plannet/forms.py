@@ -1,5 +1,5 @@
 from django import forms
-from .models import Coach, Emprendedor, Estudiante, Profesor, Usuarios
+from .models import Coach, Emprendedor, Estudiante, GastoAdministracion, GastoVenta, Ingresos, ManoObra, Materiales, Profesor, Usuarios, Envase
 from .models import Grupos
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
@@ -90,3 +90,85 @@ class GrupoForm(forms.Form):
         
         return self.cleaned_data
         
+class CreaGrupoForm(forms.ModelForm):
+    nombre_grupo = forms.CharField(
+        label='Nombre del grupo', 
+    )
+
+    clave = forms.CharField(
+        label='Clave',
+    )
+    class Meta:
+        model = Grupos
+        fields = ['nombre_grupo', 'clave']
+
+class AgregaIngresosForm(forms.ModelForm):
+    ingresos = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = Ingresos
+        fields = ['producto', 'unidades', 'precio_unitario', 'ingresos']
+
+
+class AgregaMaterialesForm(forms.ModelForm):
+    costo_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = Materiales
+        fields = ['material', 'unidad_medida', 'costo', 'volumen', 'costo_anual']
+
+class AgregaEnvaseForm(forms.ModelForm):
+    costo_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = Envase
+        fields = ['tipo_envase', 'volumen', 'necesidad', 'costo', 'costo_anual']
+
+class AgregaGastoAdministracionForm(forms.ModelForm):
+    pago_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    prestaciones = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    total_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = GastoAdministracion
+        fields = ['puesto', 'numero_personas', 'pago_mensual', 'pago_anual', 'prestaciones', 'total_anual']
+
+class AgregaGastoVentaForm(forms.ModelForm):
+    gasto_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = GastoVenta
+        fields = ['gasto_venta', 'unidad', 'gasto_unidad', 'cantidad', 'gasto_anual']
+
+class AgregaManoObraForm(forms.ModelForm):
+    pago_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    prestaciones = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    total_anual = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = ManoObra
+        fields = ['puesto', 'numero_trabajadores', 'pago_mensual', 'pago_anual', 'prestaciones', 'total_anual']

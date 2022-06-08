@@ -50,3 +50,13 @@ class GroupManager(models.Manager):
                 
         return grupo
 
+class EstadosFinancierosManager(models.Manager):
+    def create_estado_financiero(self, nombre_estado, id_contenido_estado):
+        with transaction.atomic():
+            estado = self.model(
+                nombre_estado =  nombre_estado,
+                id_contenido_estado = id_contenido_estado
+            )
+
+            estado.save(using=self.db)
+            #asigna el estado financiero

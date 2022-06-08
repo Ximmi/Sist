@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block titulo %} {{title}} {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{% load static %}
+{% load render_table from django_tables2 %}
+
+<div class="row"><br /><br /></div>
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ subtitulo }}</h5>
+          <div class="table-responsive">
+            {% render_table tabla %}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3">
+    </div>
+  </div>
+  
+{% endblock %}

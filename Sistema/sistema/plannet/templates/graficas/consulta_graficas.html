@@ -1,49 +1,33 @@
 {% extends "base.html" %}
-
 {% block titulo %} Gráficas {% endblock %}
-
 {% block contenido %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-2 bg-secondary">
-            <h4 class="text-light">Gráficas</h4>
-
-            <!-- Navigation links in sidebar-->
-            <a type="button" href=" " class="btn btn-secondary">Gráficas de barras</a><br />
-            <br />
-            <a  type="button" href=" " class="btn btn-secondary">Gráficas lineales</a><br />
-            <br />
-            <a  type="button" href=" " class="btn btn-secondary">Gráficas de área</a><br />
-            <br />
-            <a  type="button" href=" " class="btn btn-secondary">Gráficas de anillo</a><br />
-            <br />
-        </div>
-        <!--Contains the main content
-                of the webpage-->
-        <div class="col-10" style="text-align: justify;">
-            <canvas id="myChart1" width="300" height="200"></canvas>
-            <a type="button" class="btn btn-colores" href=" ">Crear PDF</a>
-        </div>
-        <script type="text/javascript">
-            var ctx = document.getElementById('myChart1').getContext('2d');
-            var myChart1 = new Chart(ctx,{
-                type: 'pie',
-                data: {
-                    labels: [{% for tipo in tipo_list %} '{{tipo}}', {% endfor %}],
-                    datasets : [{
-                        label: 'Tipo',
-                        data: [{% for number in number_list %}, '{{number}}', {%endfor%}],
-                        backgroundColor:[
-                            'rgba(171, 219, 184, 1)',
-                            'rgba(141, 227, 194, 1)',
-                            'rgba(141, 227, 220, 1)',
-                            'rgba(195, 177, 227, 1)',
-                        ],
-                        borderColor: 
-                }]
-                }
-            })
-        </script>
+{% load static %}
+{% load bootstrap4 %}
+<div class="row"><br></div>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-8" id="chart">
+        <canvas id="myBarChart"></canvas>
+        <canvas id="myLineChart"></canvas>
     </div>
 </div>
+
+            
+
+{% endblock %}
+<!-- Block javascript -->
+{% block javascript %}
+    <script>
+        const views = {{ jdumps | safe }};
+
+        
+
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js" integrity="sha512-sW/w8s4RWTdFFSduOTGtk4isV1+190E/GghVffMA9XczdJ2MDzSzLEubKAs5h0wzgSJOQTRYyaz73L3d6RtJSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.esm.js" integrity="sha512-YM18yiANXJFpbiOZjLzUrK/lNfTiBcwtTLeAntG4B8dJY+NdUDjxfPNGPEMuOdXlT7U/uT+zbIvbQYAEFog+MA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.esm.min.js" integrity="sha512-yPOQ2pPoQ9JtP0/jDKpXiKyWNCJWT5OI+6r1EqZmTg+afKQOBpy08VYboeq+Tt9kl9/FOCueEhH6cmHN3nAdJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.js" integrity="sha512-5m2r+g00HDHnhXQDbRLAfZBwPpPCaK+wPLV6lm8VQ+09ilGdHfXV7IVyKPkLOTfi4vTTUVJnz7ELs7cA87/GMA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/helpers.esm.js" integrity="sha512-dSutS1n8KEMUnQMa9YGa6CxAmoUfaZdxL2+s2xBgEq7WHaWdtjna/rzGsjqkT27GxKBDLT0Fr3C/TzzHvBRaAg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/helpers.esm.min.js" integrity="sha512-vxCPccgWacJoW2HlxhlKKtczdzvcg0r1UuB9LfNGt6vsDbgLfSFxKlolUS2mqKNXrOK5b93S45309T+V5BhueA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static js|safe %}"></script>
 {% endblock %}
