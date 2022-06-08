@@ -115,12 +115,7 @@
                     >Estados financieros y Proyecciones</a
                   >
                 </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas' %}"
-                    >Gráficas</a
-                  >
-                </li>
-                <li>
+              <li>
                   <a
                     class="dropdown-item"
                     href="{% url 'consulta_escenarios' %}"
@@ -131,6 +126,26 @@
                   <a class="dropdown-item" href="{% url 'genera_prediccion' %}"
                     >Generador de predicciones</a
                   >
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Gráficas</li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_ingresos' %}">Gráfica de presupuesto de ingresos</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_Materiales' %}">Gráfica de presupuesto de material</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_Envase' %}">Gráfica de presupuesto de envase</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_GastosAdministracion' %}">Gráfica de presupuesto gastos de administración</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_GastosVenta' %}">Gráfica de presupuesto gastos de venta</a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'consulta_graficas_ManoObra' %}">Gráfica de presupuesto mano de obra</a>
                 </li>
               </ul>
             </li>

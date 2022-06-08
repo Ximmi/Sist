@@ -1,3 +1,4 @@
+from pyexpat import model
 from tabnanny import verbose
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
@@ -224,4 +225,15 @@ class EstadoResultados(models.Model):
     impuesto = models.IntegerField( verbose_name="Impuesto a la utilidad", null=True, blank=True)
     utilidad_neta = models.IntegerField( verbose_name="Utilidad neta", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_EstadoResultados',null=True, default=None)
+
+class Inversion(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Inversion',null=True, default=None)
+    tipo_inversion = models.CharField(max_length=50, verbose_name="Tipo de inversión", null=True, blank=True)
+    socios = models.IntegerField( verbose_name="Inversión de socios", null=True, blank=True)
+    bancos = models.IntegerField( verbose_name="Inversión de bancos", null=True, blank=True)
+    gobiernof = models.IntegerField( verbose_name="Inversión de gobierno federal", null=True, blank=True)
+    gobiernoe = models.IntegerField( verbose_name="Inversión de gobierno estatal", null=True, blank=True)
+    otras = models.IntegerField( verbose_name="Otras inversiones", null=True, blank=True)
+    total = models.IntegerField( verbose_name="Total", null=True, blank=True)
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Inversion',null=True, default=None)
 

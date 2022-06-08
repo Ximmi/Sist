@@ -1,5 +1,5 @@
 from django import forms
-from .models import Coach, Emprendedor, Estudiante, GastoAdministracion, GastoVenta, Ingresos, ManoObra, Materiales, Profesor, Usuarios, Envase
+from .models import Coach, Emprendedor, Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
 from .models import Grupos
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
@@ -172,3 +172,12 @@ class AgregaManoObraForm(forms.ModelForm):
     class Meta:
         model = ManoObra
         fields = ['puesto', 'numero_trabajadores', 'pago_mensual', 'pago_anual', 'prestaciones', 'total_anual']
+
+class AgregaInversionesForm(forms.ModelForm):
+    total = forms.IntegerField(
+        disabled= True,
+        required= False
+    )
+    class Meta:
+        model = Inversion
+        fields = ['tipo_inversion', 'socios', 'bancos', 'gobiernof', 'gobiernoe', 'otras', 'total']

@@ -2,7 +2,7 @@ from django.utils.html import format_html
 import django_tables2 as tables
 import babel.numbers
 from django_tables2.utils import A
-from .models import Grupos, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase
+from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase
 
 def FormatoMoneda(value):
     return babel.numbers.format_currency(value, 'MXN', locale="es_MX")
@@ -253,4 +253,54 @@ class ManoObraTable(tables.Table):
         model = Envase
         template_name = "django_tables2/bootstrap4.html"
         fields = ("puesto","numero_trabajadores", "pago_mensual", "pago_anual", "prestaciones", "total_anual", "editar", "eliminar") 
+        attrs = {"class": "table table-hover"}
+
+
+class InversionesTable(tables.Table):
+
+    editar = tables.LinkColumn("edita_inversion",
+                                        verbose_name="Edita tipo de inversión",
+                                        text ="Editar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-colores"}},
+                                        orderable=False
+                                        )
+    eliminar = tables.LinkColumn("elimina_inversion",
+                                        verbose_name="Elimina tipo de inversión",
+                                        text ="Eliminar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-lila"}},
+                                        orderable=False
+                                        )
+
+    socios = SummingColumn()
+    bancos = SummingColumn()
+    gobiernof = SummingColumn()
+    gobiernoe =SummingColumn()
+    otras = SummingColumn()
+    total = SummingColumn()
+    tipo_inversion = tables.Column(footer="Total: ")
+
+    def render_socios(self, value):
+        return format_html("{}", FormatoMoneda(value))
+
+    def render_bancos(self,value):
+        return format_html("{}", FormatoMoneda(value))
+
+    def render_gobiernof(self,value):
+        return format_html("{}", FormatoMoneda(value))
+
+    def render_gobiernoe(self,value):
+        return format_html("{}", FormatoMoneda(value))
+
+    def render_otras(self,value):
+        return format_html("{}", FormatoMoneda(value))
+
+    def render_total(self,value):
+        return format_html("{}", FormatoMoneda(value))
+
+    class Meta:
+        model = Inversion
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ("tipo_inversion","socios", "bancos", "gobiernof", "gobiernoe", "otras", "total", "editar", "eliminar") 
         attrs = {"class": "table table-hover"}

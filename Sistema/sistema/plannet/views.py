@@ -1,14 +1,15 @@
 from cgitb import handler
 import json 
 from django.urls import reverse
+from django.db.models import F
 from django.core.serializers.json import DjangoJSONEncoder
 from urllib.request import Request
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
-from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, ManoObraTable, MaterialesTable
-from .models import Emprendedor, Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, ManoObra, Materiales, Profesor, Usuarios, Coach, Estudiante, Emprendedor, EstadosFinancieros
-from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaManoObraForm, EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
+from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable
+from .models import Emprendedor, Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Coach, Estudiante, Emprendedor, EstadosFinancieros
+from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -228,6 +229,97 @@ def consulta_graficas(request):
     return render(request, 'graficas/consulta_graficas.html', context=context)
 
 
+def consulta_graficas_ingresos(request):
+    js = '/js/Graficas/graficas.js'
+    ingreso_grafica = (
+        Ingresos.objects.filter(id_usuario=request.user).annotate(x=F('producto'), y=F('ingresos')).values('x', 'y')
+    )
+    jingreso_grafica = json.dumps(list(ingreso_grafica), cls=DjangoJSONEncoder)
+    print(jingreso_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuestos de ingresos',
+        'tituloGrafica':'"Ingresos"',
+        'js': js,
+        'jdumps': jingreso_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
+def consulta_graficas_Materiales(request):
+    js = '/js/Graficas/graficas.js'
+    Materiales_grafica = (
+        Materiales.objects.filter(id_usuario=request.user).annotate(x=F('material'), y=F('costo_anual')).values('x', 'y')
+    )
+    jMateriales_grafica = json.dumps(list(Materiales_grafica), cls=DjangoJSONEncoder)
+    print(jMateriales_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuesto de material',
+        'tituloGrafica':'"Materiales"',
+        'js': js,
+        'jdumps': jMateriales_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
+def consulta_graficas_Envase(request):
+    js = '/js/Graficas/graficas.js'
+    Envase_grafica = (
+        Envase.objects.filter(id_usuario=request.user).annotate(x=F('tipo_envase'), y=F('costo_anual')).values('x', 'y')
+    )
+    jEnvase_grafica = json.dumps(list(Envase_grafica), cls=DjangoJSONEncoder)
+    print(jEnvase_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuesto de envase',
+        'tituloGrafica':'"Envases"',
+        'js': js,
+        'jdumps': jEnvase_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
+def consulta_graficas_GastosAdministracion(request):
+    js = '/js/Graficas/graficas.js'
+    GastosAdministracion_grafica = (
+        GastoAdministracion.objects.filter(id_usuario=request.user).annotate(x=F('puesto'), y=F('total_anual')).values('x', 'y')
+    )
+    jGastoAdmin_grafica = json.dumps(list(GastosAdministracion_grafica), cls=DjangoJSONEncoder)
+    print(jGastoAdmin_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuesto de gastos de administración y ventas',
+        'tituloGrafica':'"Gastos administración"',
+        'js': js,
+        'jdumps': jGastoAdmin_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
+def consulta_graficas_GastosVenta(request):
+    js = '/js/Graficas/graficas.js'
+    GastosVenta_grafica = (
+        GastoVenta.objects.filter(id_usuario=request.user).annotate(x=F('gasto_venta'), y=F('gasto_anual')).values('x', 'y')
+    )
+    jGastoVenta_grafica = json.dumps(list(GastosVenta_grafica), cls=DjangoJSONEncoder)
+    print(jGastoVenta_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuesto de gastos de ventas',
+        'tituloGrafica':'"Gastos de ventas"',
+        'js': js,
+        'jdumps': jGastoVenta_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
+
+def consulta_graficas_ManoObra(request):
+    js = '/js/Graficas/graficas.js'
+    ManoObra_grafica = (
+        ManoObra.objects.filter(id_usuario=request.user).annotate(x=F('puesto'), y=F('total_anual')).values('x', 'y')
+    )
+    jManoObra_grafica = json.dumps(list(ManoObra_grafica), cls=DjangoJSONEncoder)
+    print(jManoObra_grafica)
+    context = {
+        'barratituloGrafica':'Gráficas de Presupuesto de mano de obra',
+        'tituloGrafica':'"Mano de obra"',
+        'js': js,
+        'jdumps': jManoObra_grafica
+    }
+    return render(request, 'graficas/consulta_graficas.html', context=context)
+
 def consulta_escenarios(request):
     return render(request, 'simulador/consulta_escenarios.html')
 
@@ -252,7 +344,27 @@ def ver_grupo(request, id_grupo):
 def estado(request, pk):
     try:
         estado = EstadosFinancieros.objects.get(pk=pk)
-        if(pk=='4'):
+        if(pk=='2'):
+            js='/js/EstadosFinancieros/inversiones.js'
+            from .models import Inversion
+            tabla = InversionesTable(Inversion.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
+            formulario = AgregaInversionesForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                inversion = Inversion.objects.model(
+                    id_usuario = request.user,
+                    tipo_inversion = formulario.cleaned_data['tipo_inversion'],
+                    socios = formulario.cleaned_data['socios'],
+                    bancos = formulario.cleaned_data['bancos'],
+                    gobiernof = formulario.cleaned_data['gobiernof'],
+                    gobiernoe = formulario.cleaned_data['gobiernoe'],
+                    otras = formulario.cleaned_data['otras'],
+                    total = formulario.cleaned_data['socios']+formulario.cleaned_data['bancos']+formulario.cleaned_data['gobiernof']+formulario.cleaned_data['gobiernoe']+formulario.cleaned_data['otras'],
+                    id_estado = estado
+                )
+                inversion.save()
+                messages.success(request, "Inversión agregada")
+                return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
+        elif(pk=='4'):
             js='/js/EstadosFinancieros/ingresos.js'
             from .models import Ingresos
             tabla = IngresosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -512,6 +624,29 @@ def elimina_manoobra(request, pk):
     mobra.delete()
     messages.success(request, "Puesto eliminado")
     return HttpResponseRedirect(reverse('estado', args=(mobra.id_estado.id, )))
+
+def edita_inversion(request, pk):
+    try: 
+        print(pk)
+        js='/js/EstadosFinancieros/inversiones.js'
+        inversion = Inversion.objects.get(pk=pk)
+        formulario = AgregaInversionesForm(request.POST or None, request.FILES or None, instance=inversion)
+        if formulario.is_valid():
+            inversion_editado = formulario.save()
+            inversion_editado.total = inversion_editado.socios + inversion_editado.bancos +  inversion_editado.gobiernof + inversion_editado.gobiernoe +  inversion_editado.otras
+            inversion_editado.save()
+            messages.success(request, "Inversion actualizada")
+            return HttpResponseRedirect(reverse('estado', args=(inversion_editado.id_estado.id, )))
+    except Inversion.DoesNotExist:
+        raise Http404("Inversion no existe")   
+    context = {'title': 'Edita Inversión','subtitulo':'Edita inversión',  'form':formulario, 'boton': "Editar", 'js':js}
+    return render(request,'proyecciones/edita_estado.html', context)
+
+def elimina_inversion(request, pk):
+    inversion = get_object_or_404(Inversion, pk=pk)
+    inversion.delete()
+    messages.success(request, "Inversión eliminada")
+    return HttpResponseRedirect(reverse('estado', args=(inversion.id_estado.id, )))
 
 #Temas del plan
 def tema0_1(request):
