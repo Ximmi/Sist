@@ -32,10 +32,10 @@
   </head>
   <body>
     {% if not user.is_authenticated %}
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #6481CE">
       <div class="container-fluid">
-        <a class="navbar-brand" aria-current="page" href="{% url 'inicio' %}"
-          >PlanNet</a
+        <a class="navbar-brand" aria-current="page" href="{% url 'inicio_sesion' %}" 
+          >Simulador para la Formulación y Evaluación de Proyectos Informáticos</a
         >
         <button
           type="button"
@@ -48,15 +48,7 @@
         <div id="menu" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-2">
             <li class="nav-item">
-              <a href="{% url 'inicio_sesion' %}" class="nav-link"
-                >Inicio de sesión</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'registro' %}" class="nav-link">Registro</a>
-            </li>
-            <li class="nav-item">
-              <a href="{% url 'productos' %}" class="nav-link">Productos</a>
+              <a href="{% url 'registro' %}" class="nav-link">Regístrate</a>
             </li>
           </ul>
         </div>
@@ -67,8 +59,8 @@
     {% else %}
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" aria-current="page" href="{% url 'inicio' %}"
-          >PlanNet</a
+        <a class="navbar-brand" aria-current="page" href="{% url 'editar_perfil' %}"
+          >Simulador para la Formulación y Evaluación de Proyectos Informáticos</a
         >
         <button
           type="button"

@@ -6,8 +6,8 @@
 
 .btn-colores{
     border-radius: 20px;
-    background-color: #90dec5; 
-    border-color: #90dec5;
+    background-color: #5b5694; 
+    border-color: #5b5694;
 }
 
 .btn-lila{
@@ -20,4 +20,9 @@
     position: relative;
     display: inline-block;
     text-align: center;
+}
+
+.navbar{
+    background-color: #5b5694; 
+    border-color: #5b5694;
 }
