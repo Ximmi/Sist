@@ -20,11 +20,7 @@ class UserManager(BaseUserManager, models.Manager):
             if(tipo == '1'):  # si es estudiante
                 user.groups.set(Group.objects.filter(name="Estudiante"))
             elif(tipo == '2'):  # si es emprendedor
-                user.groups.set(Group.objects.filter(name="Emprendedor"))
-            elif(tipo == '3'):  # si es profesor
                 user.groups.set(Group.objects.filter(name="Profesor"))
-            elif(tipo == '4'):  # si es coach
-                user.groups.set(Group.objects.filter(name="Coach"))
                 
         return user
 

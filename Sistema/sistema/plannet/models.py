@@ -8,13 +8,15 @@ from plannet.manager import UserManager, GroupManager, EstadosFinancierosManager
 # Create your models here.
 class Usuarios(AbstractBaseUser, PermissionsMixin):
 
-    CHOICES = [('1', "Estudiante"), ('2', "Emprendedor"), ('3', "Profesor"), ('4', "Coach") ]
-    nombre = models.CharField(max_length=50, verbose_name="Nombre", null=False)
-    apellido = models.CharField(max_length=50, verbose_name="Apellido", null=False)
-    correo = models.EmailField(max_length=50, verbose_name="Correo", null=False, unique=True)
+    CHOICES = [('1', "Estudiante"), ('2', "Profesor") ]
+    nombre = models.CharField(max_length=50, verbose_name="Nombre(s)", null=False)
+    apellido = models.CharField(max_length=50, verbose_name="Apellido(s)", null=False)
+    nombreusuario = models.CharField(max_length=50, verbose_name="Nombre de usuario", null=False)
+    correo = models.EmailField(max_length=50, verbose_name="Correo institucional", null=False, unique=True)
     foto = models.ImageField(upload_to='images/', verbose_name="Foto", null=True, default='')
     id_grupo = models.ForeignKey('Grupos', on_delete=models.CASCADE, blank=True, null=True)
     tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
+    num = models.CharField(max_length=50, verbose_name="Número de empleado o boleta", null=False)
     activo = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
 
@@ -30,7 +32,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self):
-        fila = "Usuario: " + self.nombre + " " + self.apellido + "     Correo: " + self.correo
+        fila = "Usuario: " + self.nombre + " " + self.apellido + " Nombre de usuario" + self.nombreusuario +"     Correo: " + self.correo
         return fila
     
     def delete(self, using=None, keep_parents=False):
@@ -56,34 +58,20 @@ class Estudiante(Usuarios):
         proxy = False
 
     def __str__(self):
-        return  f"Estudiante: {self.nombre} {self.apellido} email: {self.correo}"
+        return  f"Estudiante: {self.nombre} {self.apellido} nombreusuario: {self.nombreusuario} email: {self.correo}"
 
 
-class Emprendedor(Usuarios):
-    class Meta:
-        proxy = False
-
-    def __str__(self):
-        return  f"Emprendedor: {self.nombre} {self.apellido} email: {self.correo}"
 
 class Profesor(Usuarios):
 
-    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
+    numempleado = models.CharField(max_length=50, verbose_name="Numero_empleado", null=True, default=None)
     clave_institucion = models.CharField(max_length=50, verbose_name="Clave de institucion", null=True, default=None)
     class Meta:
         proxy = False
 
     def __str__(self):
-        return  f"Profesor: {self.nombre} {self.apellido} email: {self.correo}"
+        return  f"Profesor: {self.nombre} {self.apellido} nombreusuario: {self.nombreusuario}  email: {self.correo}"
 
-class Coach(Usuarios):
-    
-    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
-    class Meta:
-        proxy = False
-
-    def __str__(self):
-        return  f"Coach: {self.nombre} {self.apellido} email: {self.correo}"
 
 class Grupos(models.Model):
     nombre_grupo = models.CharField(max_length=50, verbose_name="Nombre grupo", unique=True)

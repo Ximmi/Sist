@@ -8,8 +8,8 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
 from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable
-from .models import Emprendedor, Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Coach, Estudiante, Emprendedor, EstadosFinancieros
-from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
+from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante, EstadosFinancieros
+from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -46,70 +46,49 @@ def registro(request):
             # print(formulario.save())
             # Usuario.set_password(formulario.cleaned_data['password2'])
             # Usuario.save()
-            tipo = formulario.cleaned_data['tipo']
+            num = formulario.cleaned_data['num']
             
-            print(str(tipo))
-            if(tipo == '1'):  # si es estudiante
+            print(str(num))
+            if(len(num)==10):  # si es estudiante
                 from .models import Estudiante
                 estudiante = Estudiante.objects.create_user(
                     correo=formulario.cleaned_data['correo'],
                     password=formulario.cleaned_data['password2'],
                     nombre=formulario.cleaned_data['nombre'],
                     apellido=formulario.cleaned_data['apellido'],
+                    nombreusuario = formulario.cleaned_data['nombreusuario'],
                     foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
+                    tipo="1"
                 )
                 print(estudiante)
 
-            elif(tipo == '2'):  # si es emprendedor
-                from .models import Emprendedor
-                # .objects indica que hace uso de todas las funciones definidas, incluidas las del manager
-                emprendedor = Emprendedor.objects.create_user(
-                    correo=formulario.cleaned_data['correo'],
-                    password=formulario.cleaned_data['password2'],
-                    nombre=formulario.cleaned_data['nombre'],
-                    apellido=formulario.cleaned_data['apellido'],
-                    foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
-                )
-                print(emprendedor)
-
-            elif(tipo == '3'):  # si es profesor
+           
+            elif(len(num)==6):  # si es profesor
                 from .models import Profesor
                 profesor = Profesor.objects.create_user(
                     correo=formulario.cleaned_data['correo'],
                     password=formulario.cleaned_data['password2'],
                     nombre=formulario.cleaned_data['nombre'],
                     apellido=formulario.cleaned_data['apellido'],
+                    nombreusuario = formulario.cleaned_data['nombreusuario'],
                     foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
+                    tipo="2"
                 )
                 print(profesor)
 
-            elif(tipo == '4'):  # si es coach
-                from .models import Coach
-                coach = Coach.objects.create_user(
-                    correo=formulario.cleaned_data['correo'],
-                    password=formulario.cleaned_data['password2'],
-                    nombre=formulario.cleaned_data['nombre'],
-                    apellido=formulario.cleaned_data['apellido'],
-                    foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
-                )
-                print(coach)
             else:
                 print("No es ninguno de los tipos anteriores")
             messages.success(request, "Registro existoso")
             return redirect('inicio')
 
-    return render(request, 'usuarios/llenarformulario.html', {'formulario': formulario, 'subtitulo': "Registro de cuenta", 'boton': "Regístrame"})
+    return render(request, 'usuarios/llenarformulario.html', {'formulario': formulario, 'subtitulo': "Regístrate", 'boton': "Regístrame"})
 
 
 def inicio_sesion(request):
     formulario = LoginForm(request.POST or None, request.FILES or None)
     if formulario.is_valid():
         session = authenticate(
-            correo=formulario.cleaned_data['correo'],
+            nombreusuario=formulario.cleaned_data['nombreusuario'],
             password=formulario.cleaned_data['password']
         )
         if session.is_active:
@@ -141,24 +120,11 @@ def editar_perfil(request):
             request.POST or None, request.FILES or None,
             instance=profesor
         )
-    elif(tipo == "Coach"):
-        coach = Coach.objects.get(id=request.user.id)
-        formulario = EditaCoachForm(
-            request.POST or None, request.FILES or None,
-            instance=coach
-        )
     elif(tipo == "Estudiante"):
         estudiante = Estudiante.objects.get(id=request.user.id)
         formulario = EditaEstudianteForm(
             request.POST or None, request.FILES or None,
             instance=estudiante
-        )
-    elif(tipo == "Emprendedor"):
-        #emprendedor = Emprendedor.get(id=request.user.id)
-        formulario = EditaEmprendedorForm(
-            request.POST or None, request.FILES or None,
-            #instance=emprendedor
-            instance=request.user
         )
     # def valid_validform...
     if request.method == 'POST':

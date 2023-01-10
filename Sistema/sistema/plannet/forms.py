@@ -1,5 +1,5 @@
 from django import forms
-from .models import Coach, Emprendedor, Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
+from .models import  Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
 from .models import Grupos
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
@@ -10,7 +10,7 @@ class UsuarioForm(forms.ModelForm):
     terminos = forms.BooleanField(label=mark_safe('Acepto <a href="/terminos" target="_blank">Términos y condiciones</a>'))
     class Meta:
         model = Usuarios
-        fields = ['nombre', 'apellido', 'correo', 'password2','passwordconfirm', 'foto', 'tipo']
+        fields = ['nombre', 'apellido','nombreusuario',  'correo', 'password2','passwordconfirm', 'num', 'foto']
 
 
     def clean_passwordconfirm(self):
@@ -25,24 +25,14 @@ class  EditaEstudianteForm(forms.ModelForm):
 class  EditaProfesorForm(forms.ModelForm):
     class Meta:
         model = Profesor
-        fields = ['correo','foto', 'rfc', 'clave_institucion']
-
-class EditaCoachForm(forms.ModelForm):
-    class Meta:
-        model = Coach
-        fields = ['foto', 'rfc']
-
-class EditaEmprendedorForm(forms.ModelForm):
-    class Meta:
-        model = Emprendedor
-        fields = ['foto']
+        fields = ['correo','foto', 'numempleado', 'clave_institucion']
 
 
 
 
 class LoginForm(forms.Form):
-    correo = forms.CharField(
-        label='correo',
+    nombreusuario = forms.CharField(
+        label='Nombre de usuario',
         
     )
 
@@ -54,10 +44,10 @@ class LoginForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
-        correo = self.cleaned_data['correo']
+        nombreusuario = self.cleaned_data['nombreusuario']
         password = self.cleaned_data['password']
 
-        if not authenticate(correo=correo, password=password):
+        if not authenticate(nombreusuario=nombreusuario, password=password):
             raise forms.ValidationError('Los datos de usuario no son correctos')
 
         return self.cleaned_data
