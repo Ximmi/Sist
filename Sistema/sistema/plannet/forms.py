@@ -1,8 +1,10 @@
 from django import forms
-from .models import Coach, Emprendedor, Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
-from .models import Grupos
+from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
+from .models import Grupos, Definicion, Objetivos
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
+import random
+import string
 
 class UsuarioForm(forms.ModelForm):
     password2 = forms.CharField(label="Contraseña", widget = forms.PasswordInput()) 
@@ -10,7 +12,7 @@ class UsuarioForm(forms.ModelForm):
     terminos = forms.BooleanField(label=mark_safe('Acepto <a href="/terminos" target="_blank">Términos y condiciones</a>'))
     class Meta:
         model = Usuarios
-        fields = ['nombre', 'apellido', 'correo', 'password2','passwordconfirm', 'foto', 'tipo']
+        fields = ['nombre', 'apellido', 'correo', 'password2','passwordconfirm', 'num', 'foto']
 
 
     def clean_passwordconfirm(self):
@@ -20,22 +22,12 @@ class UsuarioForm(forms.ModelForm):
 class  EditaEstudianteForm(forms.ModelForm):
     class Meta:
         model = Estudiante
-        fields = ['foto', 'boleta']
+        fields = ['foto']
 
 class  EditaProfesorForm(forms.ModelForm):
     class Meta:
         model = Profesor
-        fields = ['correo','foto', 'rfc', 'clave_institucion']
-
-class EditaCoachForm(forms.ModelForm):
-    class Meta:
-        model = Coach
-        fields = ['foto', 'rfc']
-
-class EditaEmprendedorForm(forms.ModelForm):
-    class Meta:
-        model = Emprendedor
-        fields = ['foto']
+        fields = ['correo','foto']
 
 
 
@@ -73,9 +65,15 @@ class GrupoForm(forms.Form):
     clave = forms.CharField(
         label='Clave',
     )
+    periodo = forms.CharField(
+        label='Periodo',
+    )
+    ciclo = forms.CharField(
+        label='Año',
+    )
     class Meta:
         model = Grupos
-        fields = ['nombre_grupo', 'clave']
+        fields = ['nombre_grupo', 'periodo', 'ciclo'] 
 
     def clean(self):
         cleaned_data = super(GrupoForm, self).clean()
@@ -89,7 +87,9 @@ class GrupoForm(forms.Form):
             self.add_error('clave', "Este es un error")
         
         return self.cleaned_data
+
         
+
 class CreaGrupoForm(forms.ModelForm):
     nombre_grupo = forms.CharField(
         label='Nombre del grupo', 
@@ -98,9 +98,15 @@ class CreaGrupoForm(forms.ModelForm):
     clave = forms.CharField(
         label='Clave',
     )
+    periodo = forms.CharField(
+        label='Periodo',
+    )
+    ciclo = forms.CharField(
+        label='Año',
+    )
     class Meta:
         model = Grupos
-        fields = ['nombre_grupo', 'clave']
+        fields = ['nombre_grupo','periodo', 'ciclo']
 
 class AgregaIngresosForm(forms.ModelForm):
     ingresos = forms.IntegerField(
@@ -110,6 +116,37 @@ class AgregaIngresosForm(forms.ModelForm):
     class Meta:
         model = Ingresos
         fields = ['producto', 'unidades', 'precio_unitario', 'ingresos']
+
+
+
+class AgregaDefinicionForm(forms.ModelForm):
+    nombre = forms.CharField(
+        label='Nombre del producto',
+    )
+    descripcion = forms.CharField(
+        label='Definición',
+    )
+    class Meta:
+        model = Definicion
+        fields = ['nombre', 'descripcion', 'tipo']
+
+
+class AgregaOjetivoForm(forms.ModelForm):
+    mision = forms.CharField(
+        label='Misión',
+    )
+    vision = forms.CharField(
+        label='Visión',
+    )
+    objgeneral = forms.CharField(
+        label='Objetivo general',
+    )
+    objespecificos = forms.CharField(
+        label='Objetivos específicos',
+    )
+    class Meta:
+        model = Objetivos
+        fields = ['mision', 'vision', 'objgeneral', 'objespecificos']
 
 
 class AgregaMaterialesForm(forms.ModelForm):

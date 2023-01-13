@@ -8,11 +8,12 @@ from plannet.manager import UserManager, GroupManager, EstadosFinancierosManager
 # Create your models here.
 class Usuarios(AbstractBaseUser, PermissionsMixin):
 
-    CHOICES = [('1', "Estudiante"), ('2', "Emprendedor"), ('3', "Profesor"), ('4', "Coach") ]
+    CHOICES = [('1', "Estudiante"), ('2', "Profesor")]
     nombre = models.CharField(max_length=50, verbose_name="Nombre", null=False)
     apellido = models.CharField(max_length=50, verbose_name="Apellido", null=False)
     correo = models.EmailField(max_length=50, verbose_name="Correo", null=False, unique=True)
     foto = models.ImageField(upload_to='images/', verbose_name="Foto", null=True, default='')
+    num = models.CharField(max_length=50, verbose_name="Núm. de boleta o empleado", null= False)
     id_grupo = models.ForeignKey('Grupos', on_delete=models.CASCADE, blank=True, null=True)
     tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
     activo = models.BooleanField(default=False)
@@ -48,7 +49,6 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
 
 class Estudiante(Usuarios):
-    boleta = models.CharField(max_length=50, verbose_name="Boleta", null=True, default=None)
 
     # objects = EstudianteManager()
 
@@ -59,35 +59,21 @@ class Estudiante(Usuarios):
         return  f"Estudiante: {self.nombre} {self.apellido} email: {self.correo}"
 
 
-class Emprendedor(Usuarios):
-    class Meta:
-        proxy = False
-
-    def __str__(self):
-        return  f"Emprendedor: {self.nombre} {self.apellido} email: {self.correo}"
-
 class Profesor(Usuarios):
 
-    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
-    clave_institucion = models.CharField(max_length=50, verbose_name="Clave de institucion", null=True, default=None)
     class Meta:
         proxy = False
 
     def __str__(self):
         return  f"Profesor: {self.nombre} {self.apellido} email: {self.correo}"
 
-class Coach(Usuarios):
-    
-    rfc = models.CharField(max_length=50, verbose_name="RFC", null=True, default=None)
-    class Meta:
-        proxy = False
-
-    def __str__(self):
-        return  f"Coach: {self.nombre} {self.apellido} email: {self.correo}"
 
 class Grupos(models.Model):
-    nombre_grupo = models.CharField(max_length=50, verbose_name="Nombre grupo", unique=True)
-    clave = models.CharField(max_length=50, verbose_name="Clave", null=True)
+    CHOICES = [('1', "enero-junio"), ('2', "agosto-diciembre")]
+    nombre_grupo = models.CharField(max_length=50, verbose_name="Nombre del grupo")
+    clave = models.CharField(max_length=50, verbose_name="Clave", unique=True, default=1)
+    periodo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
+    ciclo = models.CharField(max_length=50, verbose_name="Año", null= True)
     id_responsable = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Responsable',null=True, default=None)
 
     objects = GroupManager()
@@ -114,9 +100,10 @@ class PlandeNegocio(models.Model):
 
 
 
-
+#ESTA ES PARA LA CONSULTA DE ACTIVIDADES POR FASE
 class EstadosFinancieros(models.Model):
-    nombre_estado = models.CharField(max_length=50, verbose_name="Nombre del estado", null=True, blank=True)
+    nombre_estado = models.CharField(max_length=50, verbose_name="Nombre de la actividad", null=True, blank=True)
+    fase = models.CharField(max_length=50, verbose_name="Fase", null=True, blank=True)
     objects = EstadosFinancierosManager()
 
     class Meta:
@@ -144,6 +131,25 @@ class EstadoUsuario(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Estado',null=True, default=None)
     id_campo = models.ForeignKey('plannet.ContenidoEstados', on_delete=models.CASCADE, related_name='Campo',null=True, default=None)
     valor = models.IntegerField( verbose_name="Valor", null=True, blank=True)
+
+
+class Definicion(models.Model):
+    CHOICES = [('1', "Software"), ('2', "Hardware"), ('3', "Sistema embebido")]
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Definicion',null=True, default=None)
+    nombre = models.CharField(max_length=50, verbose_name="Nombre del Producto", null=True, blank=True)
+    descripcion = models.CharField(max_length=50, verbose_name="Definición", null=True, blank=True)
+    tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Definicion',null=True, default=None)
+
+
+
+class Objetivos(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Ojetivos',null=True, default=None)
+    mision = models.CharField(max_length=100, verbose_name="Misión", null=True, blank=True)
+    vision = models.CharField(max_length=100, verbose_name="Visión", null=True, blank=True)
+    objgeneral = models.CharField(max_length=150, verbose_name="Objetivo general", null=True, blank=True)
+    objespecificos = models.CharField(max_length=200, verbose_name="Objetivos específicos", null=True, blank=True)
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Objetivos',null=True, default=None)
 
 class Ingresos(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Ingresos',null=True, default=None)

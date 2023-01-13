@@ -32,11 +32,11 @@
   </head>
   <body>
     {% if not user.is_authenticated %}
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #6481CE">
       <div class="container-fluid">
         <a class="navbar-brand" aria-current="page" href="{% url 'inicio' %}"
-          >PlanNet</a
-        >
+          >Simulador para la Formulación y Evaluación de Proyectos Informáticos 
+          </a>
         <button
           type="button"
           class="navbar-toggler"
@@ -65,10 +65,10 @@
     {% bootstrap_messages %}
     <div class="row"><br /><br /></div>
     {% else %}
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-dark" style="background-color: #6481CE">
       <div class="container-fluid">
         <a class="navbar-brand" aria-current="page" href="{% url 'inicio' %}"
-          >PlanNet</a
+          >Simulador para la Formulación y Evaluación de Proyectos Informáticos </a
         >
         <button
           type="button"
@@ -80,75 +80,21 @@
         </button>
         <div id="menu" class="collapse navbar-collapse">
           <ul class="navbar-nav ms-2">
+            
+            
+            {% if user.tipo == '2' %}
             <li class="nav-item">
               <a href="{% url 'editar_perfil' %}" class="nav-link">Perfil</a>
             </li>
-            
-            {% if perms.plannet.crea_grupo %}
             <li class="nav-item">
               <a href="{% url 'consulta_grupo' %}" class="nav-link">Mis grupos</a>
             </li>
-            {% elif perms.plannet.ingresa_grupo %}
+            {% else %}
             <li class="nav-item">
               <a href="{% url 'consulta_grupo' %}" class="nav-link">Mi grupo</a>
             </li>
             {% endif %}
 
-
-
-            <li class="nav-item">
-              <a href="{% url 'consulta_temas' %}" class="nav-link"
-                >Plan de negocios</a
-              >
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                href=""
-                class="nav-link dropdown-toggle"
-                role="button"
-                data-bs-toggle="dropdown"
-                >Herramientas</a
-              >
-              <ul class="dropdown-menu bg-light">
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_estados' %}"
-                    >Estados financieros y Proyecciones</a
-                  >
-                </li>
-              <li>
-                  <a
-                    class="dropdown-item"
-                    href="{% url 'consulta_escenarios' %}"
-                    >Simulador de escenarios</a
-                  >
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'genera_prediccion' %}"
-                    >Generador de predicciones</a
-                  >
-                </li>
-                <li class="divider"></li>
-                <li class="dropdown-header">Gráficas</li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_ingresos' %}">Gráfica de presupuesto de ingresos</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_Materiales' %}">Gráfica de presupuesto de material</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_Envase' %}">Gráfica de presupuesto de envase</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_GastosAdministracion' %}">Gráfica de presupuesto gastos de administración</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_GastosVenta' %}">Gráfica de presupuesto gastos de venta</a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'consulta_graficas_ManoObra' %}">Gráfica de presupuesto mano de obra</a>
-                </li>
-              </ul>
-            </li>
             <li class="nav-item">
               <a href="{% url 'cerrar_sesion' %}" class="nav-link"
                 >Cerrar sesión</a

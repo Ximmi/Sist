@@ -10,19 +10,60 @@
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
         <div class="row">
-            <div class="card-deck">
+
+            <div class="container p-3 my-3  text-white" style="background-color: #6481ce">
+                <h6>Fase 1: Identificación de una problemática orientada a una oportunidad de negocio </h6>
+                <br>
+                <!--PRIMER TEMA-->
+                
+                        <div class="row text-dark" style="background-color: #f8f8ff">
+                            <div class="col-sm-10">
+                                <h8>Definición del negocio</h8>
+                            </div>
+                            <div class="col-sm-2">
+                                <a href="{% url 'estadoformula' 1 %}" class="btn btn-light" style="border-radius: 20px;background-color: #6481CE; border-color: #6481CE;">
+                                    Ver
+                                  </a>
+                            </div>
+                        </div>
+                <!--FIN TEMA-->
+            </div>
+            <div class="container p-3 my-3 text-white" style="background-color: #8195d6">
+                <h7>Fase 2: Aplicación de la metodología Design Thinking para generar un proyecto informático</h7>
+            </div>
+                <div class="container p-3 my-3 text-white" style="background-color: #9ca9df">
+                <h7>Fase 3: Formulación del proyecto informático con base en las etapas y ciclo de vida del proyecto</h7>
+            </div>
+            <div class="container p-3 my-3 text-white" style="background-color: #b5bee7">
+                <h7>Fase 4: Cálculo de flujo neto de efectivo con base en los presupuestos</h7>
+            </div>
+            <div class="container p-3 my-3 text-white" style="background-color: #bcc2e1">
+                <h7>Fase 5: Evaluación de la factibilidad del proyecto</h7>
+            </div>
+
+
+            <!--div class="card-deck">
                 {% for estado in estados %}
-                <div class="col-sm-2">
+                <div class="col-sm-10">
                     <div class="border border-info2 rounded shadow p-3 mb-5 bg-body h-20 d-inline-block">
                         <div class="card-body text-center">
-                            <h6 class="card-title">{{ estado.nombre_estado }}</h6>
+                            <h6 class="card-title">Fase: {{ estado.fase }}</h6>
+
+                            <div class="border border-info2 rounded shadow p-3 mb-5 bg-body h-20 d-inline-block">
+                                <div class="card-body text-center">
+                                    <h6 class="card-title">Fase: {{ estado.nombre_estado }}</h6>
+                                    <br>
+                                    <a class="btn btn-colores" id="edita" href ="{% url 'estadoformula' 1 %}">Ver aquí </a>
+                                </div>
+                            </div>
+
                             <br>
                             <a class="btn btn-colores" id="edita" href ="{% url 'estado' estado.id %}">Ver</a>
                         </div>
                     </div>
                 </div>
             {% endfor %}
-            </div>
+            </div-->
         </div>
     </div>
     <div class="col-sm-1"></div>

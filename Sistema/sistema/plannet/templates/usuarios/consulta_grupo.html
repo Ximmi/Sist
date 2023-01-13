@@ -6,7 +6,7 @@
 
 {%if user.is_authenticated %}
 <div class="row"><br /><br /></div>
-{% if perms.plannet.crea_grupo %}
+{% if user.tipo == '2' %}
 <div class="row">
     <div class="col-sm-1"></div>
     <div class="col-sm-10">
@@ -33,7 +33,7 @@
     </div>
 </div>
 </div>
-{% elif perms.plannet.ingresa_grupo %}
+{% else %}
 {% if user.id_grupo is None %}
 <div class="row">
     <div class="col-sm-3"></div>

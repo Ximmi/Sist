@@ -8,11 +8,15 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
 from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable
-from .models import Emprendedor, Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Coach, Estudiante, Emprendedor, EstadosFinancieros
-from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, EditaCoachForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEmprendedorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
+from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
+from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
+from .forms import AgregaDefinicionForm, AgregaOjetivoForm
+from .models import Definicion, Objetivos
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
+
+
 
 # Create your views here.
 
@@ -46,59 +50,36 @@ def registro(request):
             # print(formulario.save())
             # Usuario.set_password(formulario.cleaned_data['password2'])
             # Usuario.save()
-            tipo = formulario.cleaned_data['tipo']
+            num = formulario.cleaned_data['num']
             
-            print(str(tipo))
-            if(tipo == '1'):  # si es estudiante
+            print(str(num))
+            if(len(num) == 10):  # si es estudiante
                 from .models import Estudiante
                 estudiante = Estudiante.objects.create_user(
                     correo=formulario.cleaned_data['correo'],
                     password=formulario.cleaned_data['password2'],
                     nombre=formulario.cleaned_data['nombre'],
                     apellido=formulario.cleaned_data['apellido'],
+                    num=formulario.cleaned_data['num'],
                     foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
+                    tipo = '1'
                 )
                 print(estudiante)
-
-            elif(tipo == '2'):  # si es emprendedor
-                from .models import Emprendedor
-                # .objects indica que hace uso de todas las funciones definidas, incluidas las del manager
-                emprendedor = Emprendedor.objects.create_user(
-                    correo=formulario.cleaned_data['correo'],
-                    password=formulario.cleaned_data['password2'],
-                    nombre=formulario.cleaned_data['nombre'],
-                    apellido=formulario.cleaned_data['apellido'],
-                    foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
-                )
-                print(emprendedor)
-
-            elif(tipo == '3'):  # si es profesor
+          
+            elif(len(num) == 6):  # si es profesor
                 from .models import Profesor
                 profesor = Profesor.objects.create_user(
                     correo=formulario.cleaned_data['correo'],
                     password=formulario.cleaned_data['password2'],
                     nombre=formulario.cleaned_data['nombre'],
                     apellido=formulario.cleaned_data['apellido'],
+                    num=formulario.cleaned_data['num'],
                     foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
+                    tipo = '2'
                 )
                 print(profesor)
-
-            elif(tipo == '4'):  # si es coach
-                from .models import Coach
-                coach = Coach.objects.create_user(
-                    correo=formulario.cleaned_data['correo'],
-                    password=formulario.cleaned_data['password2'],
-                    nombre=formulario.cleaned_data['nombre'],
-                    apellido=formulario.cleaned_data['apellido'],
-                    foto=formulario.cleaned_data['foto'],
-                    tipo=formulario.cleaned_data['tipo']
-                )
-                print(coach)
             else:
-                print("No es ninguno de los tipos anteriores")
+                print("No es un número de boleta o empleado válido")
             messages.success(request, "Registro existoso")
             return redirect('inicio')
 
@@ -117,7 +98,7 @@ def inicio_sesion(request):
         else:
             messages.error(request, 'La cuenta no se encuentra activa')
         return redirect('inicio')
-    return render(request, 'usuarios/llenarformulario.html', {'formulario': formulario, 'subtitulo': "Iniciar sesión", 'boton': "Ingresar"})
+    return render(request, 'usuarios/llenarformulario.html', {'formulario': formulario, 'subtitulo': "Inicia sesión", 'boton': "Ingresar"})
 
 
 def cerrar_sesion(request):
@@ -141,24 +122,11 @@ def editar_perfil(request):
             request.POST or None, request.FILES or None,
             instance=profesor
         )
-    elif(tipo == "Coach"):
-        coach = Coach.objects.get(id=request.user.id)
-        formulario = EditaCoachForm(
-            request.POST or None, request.FILES or None,
-            instance=coach
-        )
     elif(tipo == "Estudiante"):
         estudiante = Estudiante.objects.get(id=request.user.id)
         formulario = EditaEstudianteForm(
             request.POST or None, request.FILES or None,
             instance=estudiante
-        )
-    elif(tipo == "Emprendedor"):
-        #emprendedor = Emprendedor.get(id=request.user.id)
-        formulario = EditaEmprendedorForm(
-            request.POST or None, request.FILES or None,
-            #instance=emprendedor
-            instance=request.user
         )
     # def valid_validform...
     if request.method == 'POST':
@@ -201,6 +169,8 @@ def crea_grupo(request):
         grupo = Grupos.objects.create_grupo(
             nombre_grupo = formulario.cleaned_data['nombre_grupo'],
             clave = formulario.cleaned_data['clave'],
+            periodo = formulario.cleaned_data['periodo'],
+            ciclo = formulario.cleaned_data['ciclo'],
             id_responsable = request.user
             )
         messages.success(request, "Grupo agregado")
@@ -214,8 +184,10 @@ def consulta_temas(request):
 
 
 def consulta_estados(request):
-    estados = EstadosFinancieros.objects.all()
-    return render(request, 'proyecciones/consulta_estados.html', {'estados': estados})
+    #estados = EstadosFinancieros.objects.all()
+    return render(request, 'proyecciones/consulta_estados.html'
+    #, {'estados': estados}
+    )
 
 
 def consulta_graficas(request):
@@ -340,11 +312,48 @@ def ver_grupo(request, id_grupo):
     context = {'title': "Ver grupo",'subtitulo':grupo.nombre_grupo, 'tabla': tabla}
     return render(request,'usuarios/tabla_generica.html', context)
 
+def estadoformula(request, pk):
+    try:
+        estado = EstadosFinancieros.objects.get(pk=pk)
+        if(pk=='1'):
+            formulario = AgregaDefinicionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Definicion
+                definicion = Definicion.objects.model(
+                   id_usuario = request.user,
+                   nombre = formulario.cleaned_data['nombre'],
+                   tipo = formulario.cleaned_data['tipo'],
+                   descripcion = formulario.cleaned_data['descripcion'],
+                   id_estado = estado
+                )
+                definicion.save()
+                messages.success(request, "Definición del negocio agregada")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+        elif (pk=='2'):
+            formulario = AgregaOjetivoForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Objetivos
+                objetivos = Objetivos.objects.model(
+                   id_usuario = request.user,
+                   mision = formulario.cleaned_data['mision'],
+                   vision = formulario.cleaned_data['vision'],
+                   objgeneral = formulario.cleaned_data['objgeneral'],
+                   objespecificos = formulario.cleaned_data['objespecificos'],
+                   id_estado = estado
+                )
+                objetivos.save()
+                messages.success(request, "Misión, Visión u Objetivos agregados")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+    except EstadosFinancieros.DoesNotExist:
+        raise Http404("El Estado Financiero no existe") 
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado,  'form':formulario, 'boton': "Entregar"}
+    return render(request,'proyecciones/estadoformula.html', context)
 
+##Los de las TABLAS
 def estado(request, pk):
     try:
         estado = EstadosFinancieros.objects.get(pk=pk)
-        if(pk=='2'):
+        if(pk=='6'): #Financiamiento fase 2
             js='/js/EstadosFinancieros/inversiones.js'
             from .models import Inversion
             tabla = InversionesTable(Inversion.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -364,7 +373,7 @@ def estado(request, pk):
                 inversion.save()
                 messages.success(request, "Inversión agregada")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk=='4'):
+        elif(pk=='15'): #Ingresos fase 4
             js='/js/EstadosFinancieros/ingresos.js'
             from .models import Ingresos
             tabla = IngresosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -381,7 +390,7 @@ def estado(request, pk):
                 ingreso.save()
                 messages.success(request, "Producto agregado")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk == '5'):
+        elif(pk == '3'): #Caracteristicas del producto fase 1
             js='/js/EstadosFinancieros/materiales.js'
             from .models import Materiales
             tabla = MaterialesTable(Materiales.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -399,44 +408,8 @@ def estado(request, pk):
                 material.save()
                 messages.success(request, "Material agregado")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk == '6'):
-            js='/js/EstadosFinancieros/envase.js'
-            from .models import Envase
-            tabla = EnvaseTable(Envase.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
-            formulario = AgregaEnvaseForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                envase = Envase.objects.model(
-                    id_usuario = request.user,
-                    tipo_envase = formulario.cleaned_data['tipo_envase'],
-                    volumen = formulario.cleaned_data['volumen'],
-                    necesidad = formulario.cleaned_data['necesidad'],
-                    costo = formulario.cleaned_data['costo'],
-                    costo_anual = formulario.cleaned_data['costo']*formulario.cleaned_data['necesidad'],
-                    id_estado = estado
-                )
-                envase.save()
-                messages.success(request, "Envase, empaque o embalaje agregado")
-                return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk == '7'):
-            js='/js/EstadosFinancieros/gastoadministracion.js'
-            from .models import GastoAdministracion
-            tabla = GastoAdministracionTable(GastoAdministracion.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
-            formulario = AgregaGastoAdministracionForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                gasto = GastoAdministracion.objects.model(
-                    id_usuario = request.user,
-                    puesto = formulario.cleaned_data['puesto'],
-                    numero_personas = formulario.cleaned_data['numero_personas'],
-                    pago_mensual = formulario.cleaned_data['pago_mensual'],
-                    pago_anual = formulario.cleaned_data['pago_mensual']*12,
-                    prestaciones = formulario.cleaned_data['pago_mensual']*3.6,
-                    total_anual = formulario.cleaned_data['pago_mensual']*3.6*formulario.cleaned_data['numero_personas'],
-                    id_estado = estado
-                )
-                gasto.save()
-                messages.success(request, "Puesto agregado")
-                return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk == '8'):
+        
+        elif(pk == '5'):
             js='/js/EstadosFinancieros/gastosventa.js'
             from .models import GastoVenta
             tabla = GastoVentaTable(GastoVenta.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -452,9 +425,9 @@ def estado(request, pk):
                     id_estado = estado
                 )
                 gastov.save()
-                messages.success(request, "Gasto de venta agregado")
+                messages.success(request, "Inversión necesaria agregada")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk == '9'):
+        elif(pk == '4'): # presupuesto de mano de obra fase 1
             js='/js/EstadosFinancieros/manoobra.js'
             from .models import ManoObra
             tabla = ManoObraTable(ManoObra.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
@@ -478,7 +451,7 @@ def estado(request, pk):
             formulario = AgregaIngresosForm(request.POST or None, request.FILES or None)
     except EstadosFinancieros.DoesNotExist:
         raise Http404("El Estado Financiero no existe")
-    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Agregar", 'js':js}
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar", 'js':js}
     return render(request,'proyecciones/estado.html', context)
 
 
@@ -648,18 +621,3 @@ def elimina_inversion(request, pk):
     messages.success(request, "Inversión eliminada")
     return HttpResponseRedirect(reverse('estado', args=(inversion.id_estado.id, )))
 
-#Temas del plan
-def tema0_1(request):
-    return render(request,'temas/tema0_1.html')
-
-def tema1_1(request):
-    return render(request,'temas/tema1_1.html')
-
-def tema1_2(request):
-    return render(request,'temas/tema1_2.html')
-    
-def tema1_3(request):
-    return render(request,'temas/tema1_3.html')
-
-def tema1_4(request):
-    return render(request,'temas/tema1_4.html')

@@ -19,12 +19,8 @@ class UserManager(BaseUserManager, models.Manager):
             tipo = user.tipo
             if(tipo == '1'):  # si es estudiante
                 user.groups.set(Group.objects.filter(name="Estudiante"))
-            elif(tipo == '2'):  # si es emprendedor
-                user.groups.set(Group.objects.filter(name="Emprendedor"))
-            elif(tipo == '3'):  # si es profesor
+            elif(tipo == '2'):  # si es profesor
                 user.groups.set(Group.objects.filter(name="Profesor"))
-            elif(tipo == '4'):  # si es coach
-                user.groups.set(Group.objects.filter(name="Coach"))
                 
         return user
 
@@ -51,10 +47,11 @@ class GroupManager(models.Manager):
         return grupo
 
 class EstadosFinancierosManager(models.Manager):
-    def create_estado_financiero(self, nombre_estado, id_contenido_estado):
+    def create_estado_financiero(self, nombre_estado, fase,id_contenido_estado):
         with transaction.atomic():
             estado = self.model(
                 nombre_estado =  nombre_estado,
+                fase = fase,
                 id_contenido_estado = id_contenido_estado
             )
 
