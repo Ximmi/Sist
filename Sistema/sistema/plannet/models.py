@@ -232,11 +232,20 @@ class EstadoResultados(models.Model):
 class Inversion(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Inversion',null=True, default=None)
     tipo_inversion = models.CharField(max_length=50, verbose_name="Tipo de inversión", null=True, blank=True)
-    socios = models.IntegerField( verbose_name="Inversión de socios", null=True, blank=True)
-    bancos = models.IntegerField( verbose_name="Inversión de bancos", null=True, blank=True)
-    gobiernof = models.IntegerField( verbose_name="Inversión de gobierno federal", null=True, blank=True)
-    gobiernoe = models.IntegerField( verbose_name="Inversión de gobierno estatal", null=True, blank=True)
-    otras = models.IntegerField( verbose_name="Otras inversiones", null=True, blank=True)
+    socios = models.IntegerField( verbose_name="Inversión de socios", null=True, blank=True, default=0)
+    bancos = models.IntegerField( verbose_name="Inversión de bancos", null=True, blank=True, default=0)
+    gobiernof = models.IntegerField( verbose_name="Inversión de gobierno federal", null=True, blank=True, default=0)
+    gobiernoe = models.IntegerField( verbose_name="Inversión de gobierno estatal", null=True, blank=True, default=0)
+    otras = models.IntegerField( verbose_name="Otras inversiones", null=True, blank=True, default=0)
     total = models.IntegerField( verbose_name="Total", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Inversion',null=True, default=None)
 
+class Requerimientos(models.Model):
+    CHOICES = [('1', "Funcional"),
+                ('2', "No funcional")
+                ]
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Requerimientos',null=True, default=None)
+    numero = models.IntegerField( verbose_name="Volumen de productos", null=True, blank=True)
+    tipo_requerimiento = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1)
+    Requerimiento = models.CharField(max_length=50, verbose_name="Descripción del requerimiento", null=True, blank=True)
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Requerimientos',null=True, default=None)

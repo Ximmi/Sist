@@ -7,11 +7,11 @@ from urllib.request import Request
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
-from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable
+from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
-from .forms import AgregaDefinicionForm, AgregaOjetivoForm
-from .models import Definicion, Objetivos
+from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm
+from .models import Definicion, Objetivos, Requerimientos
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -445,6 +445,22 @@ def estado(request, pk):
                 )
                 mobra.save()
                 messages.success(request, "Puesto agregado")
+                return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
+        elif(pk=='7'): #Requerimientos fase 3
+            js='/js/EstadosFinancieros/requerimientos.js'
+            from .models import Requerimientos
+            tabla = RequerimientosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
+            formulario = AgregaRequerimientoForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                requerim = Requerimientos.objects.model(
+                    id_usuario = request.user,
+                    numero = formulario.cleaned_data['numero'],
+                    tipo_requerimiento = formulario.cleaned_data['tipo_requerimiento'],
+                    Requerimiento = formulario.cleaned_data['Requerimiento'],
+                    id_estado = estado
+                )
+                requerim.save()
+                messages.success(request, "Requerimiento agregado")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
         else:
             tabla = GrupoTable(Usuarios.objects.filter(), per_page_field=5)

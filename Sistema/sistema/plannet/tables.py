@@ -2,7 +2,7 @@ from django.utils.html import format_html
 import django_tables2 as tables
 import babel.numbers
 from django_tables2.utils import A
-from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase
+from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase, Requerimientos
 
 def FormatoMoneda(value):
     return babel.numbers.format_currency(value, 'MXN', locale="es_MX")
@@ -303,4 +303,26 @@ class InversionesTable(tables.Table):
         model = Inversion
         template_name = "django_tables2/bootstrap4.html"
         fields = ("tipo_inversion","socios", "bancos", "gobiernof", "gobiernoe", "otras", "total", "editar", "eliminar") 
+        attrs = {"class": "table table-hover"}
+
+
+class RequerimientosTable(tables.Table):
+    editar = tables.LinkColumn("edita_requerimiento",
+                                        verbose_name="Edita requerimiento",
+                                        text ="Editar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-colores"}},
+                                        orderable=False
+                                        )
+    eliminar = tables.LinkColumn("elimina_ingreso",
+                                        verbose_name="Elimina requerimiento",
+                                        text ="Eliminar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-lila"}},
+                                        orderable=False
+                                        )
+    class Meta:
+        model = Requerimientos
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ("numero","tipo_requerimiento", "Requerimiento", "editar", "eliminar") 
         attrs = {"class": "table table-hover"}

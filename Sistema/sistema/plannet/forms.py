@@ -1,6 +1,6 @@
 from django import forms
 from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
-from .models import Grupos, Definicion, Objetivos
+from .models import Grupos, Definicion, Objetivos, Requerimientos
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
 import random
@@ -213,8 +213,49 @@ class AgregaManoObraForm(forms.ModelForm):
 class AgregaInversionesForm(forms.ModelForm):
     total = forms.IntegerField(
         disabled= True,
-        required= False
+        required= False,
+        label='Total',
     )
+    socios = forms.IntegerField(
+        disabled= False,
+        required= False,
+        label='Inversión de Socios',
+    )
+    bancos = forms.IntegerField(
+        disabled= False,
+        required= False,
+        label='Inversión de Bancos',
+    )
+    gobiernof = forms.IntegerField(
+        disabled= False,
+        required= False,
+        label='Inversión de Gobierno Federal',
+    )
+    gobiernoe = forms.IntegerField(
+        disabled= False,
+        required= False,
+        label='Inversión de Gobierno Estatal',
+    )
+    otras = forms.IntegerField(
+        disabled= False,
+        required= False,
+        label='Otras inversiones',
+    )
+
     class Meta:
         model = Inversion
         fields = ['tipo_inversion', 'socios', 'bancos', 'gobiernof', 'gobiernoe', 'otras', 'total']
+
+class AgregaRequerimientoForm(forms.ModelForm):
+    numero = forms.IntegerField(
+        disabled= False,
+        required= True,
+        label='Número',
+    )
+    Requerimiento = forms.CharField(
+        label='Descripción del requerimiento',
+        required= True,
+    )
+    class Meta:
+        model = Requerimientos
+        fields = ['numero', 'tipo_requerimiento', 'Requerimiento']

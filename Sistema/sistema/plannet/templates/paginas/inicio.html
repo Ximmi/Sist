@@ -9,29 +9,38 @@
     {% if user.tipo == '2' %}  <!--Del profesor-->
         <div class="row">
           <div class="col-sm-1"></div>
-          <div class="col-sm-3">
-              <br><br><br>
-              <div class="card">
-                <div class="card-body">
-                  <h5 class="card-title">Perfil crea grupo</h5>
-                  <div class="row">
-                    <div class="col-sm-3"></div>
-                    <div class="col-sm-6">
-                      <img src="{{ user.foto.url }}" class="rounded-circle" height="80" width="80">
-                    </div>
-                    <div class="col-sm-3"></div>
-                </div>
-                  <p class="card-text">Nombre: {{ user.nombre }} {{ user.apellido }}</p>
-                  <p class="card-text">Correo: {{ user.correo }} </p>
-                  <p class="card-text">Número de empleado: {{ user.num }} </p>
-                  <a href="{% url 'userChangePassword' %}" class="btn btn-light" style="border-radius: 20px;background-color: #6481CE; border-color: #6481CE;">
-                    Cambiar contraseña
-                  </a>
-                </div>
+          <div class="col-sm-10">
+
+            <div class="card">
+              <h6 class="card.title">Participantes</h6>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th> Foto </th>
+                    <th>Nombre de usuario</th>
+                    <th>Grupo</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for usi in usuarios %}
+                  <tr>
+                    <td>
+                      <img src="{{ usi.foto.url }}" class="rounded-circle" height="80" width="80">
+                    </td>
+                    <td>
+                      {{ usi.nombre }} {{ usi.apellido }}
+                    </td>
+                    <td>
+                      {{ usi.id_grupo }}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
               </div>
           </div>
-          <div class="col-sm-8">
-              <p>Aquí van tablas</p>
+          <div class="col-sm-1">
               <br><br><br>
           </div>
         </div>
@@ -44,7 +53,7 @@
               <br><br><br>
               <div class="card">
                 <div class="card-body">
-                  <h5 class="card-title">Perfil no crea grupo </h5>
+                  <h5 class="card-title">Bienvenido, alumno</h5>
                   <div class="row">
                     <div class="col-sm-3"></div>
                     <div class="col-sm-6">
