@@ -160,15 +160,12 @@ class Ingresos(models.Model):
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Ingresos',null=True, default=None)
 
 class Materiales(models.Model):
-    CHOICES = [('1', "Pieza"),
-                ('2', "Caja"),
-                ('3', "Barril"),
-                ('4', "Litro"),
-                ('5', "Kilogramo"),
-                ('6', "Paquete"),
+    CHOICES = [('1', "Unidad"),
+                ('2', "Mes de servicio"),
+                ('3', "Año de servicio")
                     ]
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Materiales',null=True, default=None)
-    material = models.CharField(max_length=50, verbose_name="Materia prima o materiales", null=True, blank=True)
+    material = models.CharField(max_length=50, verbose_name="Producto", null=True, blank=True)
     unidad_medida = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1)
     costo = models.IntegerField( verbose_name="Costo por unidad", null=True, blank=True)
     volumen = models.IntegerField( verbose_name="Volumen requerido", null=True, blank=True)
