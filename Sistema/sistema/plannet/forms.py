@@ -1,6 +1,6 @@
 from django import forms
 from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
-from .models import Grupos, Definicion, Objetivos, Requerimientos
+from .models import Grupos, Definicion, Objetivos, Requerimientos, Retroalimentacion
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
 import random
@@ -59,21 +59,16 @@ class LoginForm(forms.Form):
 
 class GrupoForm(forms.Form):
     nombre_grupo = forms.CharField(
-        label='Nombre del grupo', 
+        label='Nombre del grupo',
     )
 
     clave = forms.CharField(
         label='Clave',
     )
-    periodo = forms.CharField(
-        label='Periodo',
-    )
-    ciclo = forms.CharField(
-        label='Año',
-    )
+
     class Meta:
         model = Grupos
-        fields = ['nombre_grupo', 'periodo', 'ciclo'] 
+        fields = ['clave'] 
 
     def clean(self):
         cleaned_data = super(GrupoForm, self).clean()
@@ -98,15 +93,13 @@ class CreaGrupoForm(forms.ModelForm):
     clave = forms.CharField(
         label='Clave',
     )
-    periodo = forms.CharField(
-        label='Periodo',
-    )
+    
     ciclo = forms.CharField(
         label='Año',
     )
     class Meta:
         model = Grupos
-        fields = ['nombre_grupo','periodo', 'ciclo']
+        fields = ['nombre_grupo', 'clave','periodo', 'ciclo']
 
 class AgregaIngresosForm(forms.ModelForm):
     ingresos = forms.IntegerField(
@@ -259,3 +252,14 @@ class AgregaRequerimientoForm(forms.ModelForm):
     class Meta:
         model = Requerimientos
         fields = ['numero', 'tipo_requerimiento', 'Requerimiento']
+
+
+class AgregaRetroalimentacionForm(forms.ModelForm):
+
+    comentario = forms.CharField(
+        label='Comentario de retroalimentación',
+        required= True,
+    )
+    class Meta:
+        model = Retroalimentacion
+        fields = ['calificacion', 'comentario']

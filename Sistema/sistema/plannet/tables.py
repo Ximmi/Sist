@@ -16,27 +16,30 @@ class SummingColumnNormal(tables.Column):
         return sum(bound_column.accessor.resolve(row) for row in table.data)
 
 class GrupoTable(tables.Table):
-    plan_de_negocios = tables.LinkColumn("consulta_planes",
-                                        verbose_name="Plan de negocios",
-                                        text ="Ver plan",
+    portafolio = tables.LinkColumn("consulta_portafolio",
+                                        verbose_name="Portafolio de evidencias",
+                                        text ="Ver portafolio",
                                         args = [A("pk")],
-                                        attrs={"a":{"class":"btn btn-colores"}},
+                                        attrs={"a":{"class":"btn btn-light"}},
                                         orderable=False
                                         )
     class Meta:
         model = Usuarios
         template_name = "django_tables2/bootstrap4.html"
-        fields = ("foto","nombre", "apellido", "correo", "plan_de_negocios" ) 
+        fields = ("foto","nombre", "apellido", "correo", "portafolio" ) 
         attrs = {"class": "table table-hover"}
 
     def render_foto(self, value):
         return format_html("<img src=\"/images/{}\" class=\"rounded-circle\" height=\"30\" width=\"30\">", value)
 
     def before_render(self, request):
-        if request.user.has_perm('plannet.view_plandenegocio'):
-            self.columns.show('plan_de_negocios')
+        #if request.user.has_perm('plannet.view_plandenegocio'):
+        if request.user.tipo == '2':
+            self.columns.show('portafolio')
+            print('cayo en el if')
         else:
-            self.columns.hide('plan_de_negocios')
+            self.columns.show('portafolio')
+            print('cayo en el else')
 
 
 

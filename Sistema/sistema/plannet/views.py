@@ -10,7 +10,7 @@ from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpRespons
 from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
-from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm
+from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm
 from .models import Definicion, Objetivos, Requerimientos
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -166,13 +166,14 @@ def crea_grupo(request):
     formulario = CreaGrupoForm(request.POST or None, request.FILES or None)
     if formulario.is_valid():
         from .models import Grupos
-        grupo = Grupos.objects.create_grupo(
+        grupo = Grupos.objects.model(
             nombre_grupo = formulario.cleaned_data['nombre_grupo'],
             clave = formulario.cleaned_data['clave'],
             periodo = formulario.cleaned_data['periodo'],
             ciclo = formulario.cleaned_data['ciclo'],
             id_responsable = request.user
-            )
+        )
+        grupo.save()
         messages.success(request, "Grupo agregado")
         return redirect('inicio')
     context = {'formulario': formulario, 'subtitulo': "Crea un grupo", 'boton': "Crear"}
@@ -299,8 +300,10 @@ def consulta_escenarios(request):
 def genera_prediccion(request):
     return render(request, 'predicciones/genera_prediccion.html')
 
-def consulta_planes(request, pk):
-    return render(request,'plan/consulta_planes.html')
+def consulta_portafolio(request, pk):
+    alumno = Usuarios.objects.get(pk=pk)
+    context = {'title':'Portafolio de evidencias', 'alumno': alumno}
+    return render(request,'plan/consulta_portafolio.html', context)
 
 def ver_grupo(request, id_grupo):
     try:
@@ -311,6 +314,28 @@ def ver_grupo(request, id_grupo):
         raise Http404("El grupo no existe")
     context = {'title': "Ver grupo",'subtitulo':grupo.nombre_grupo, 'tabla': tabla}
     return render(request,'usuarios/tabla_generica.html', context)
+
+def estadoformulaprofe(request, pk, usu):
+    estado = EstadosFinancieros.objects.get(pk=pk)
+    alumno = Usuarios.objects.get(pk=usu)
+    print('Alumno: ' + str(alumno.id) + str(alumno.nombre) + str(alumno.apellido))
+    if(pk=='1'):
+        from .models import Definicion
+        definicion = Definicion.objects.get(id_usuario= alumno.id)
+        formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+        if formulario.is_valid():
+            from .models import Retroalimentacion
+            retroalimentacion = Retroalimentacion.objects.model(
+                id_usuario = alumno,
+                calificacion = formulario.cleaned_data['calificacion'],
+                comentario = formulario.cleaned_data['comentario'],
+                id_estado = estado
+            )
+            retroalimentacion.save()
+            messages.success(request, "Retroalimentación agregada")
+            return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+    context =  context = {'title': estado.nombre_estado, 'definicion':definicion, 'subtitulo':estado.nombre_estado, 'form': formulario, 'boton': "Evaluar"}
+    return render(request, 'proyecciones/estadoformulaprofe.html', context)
 
 def estadoformula(request, pk):
     try:
@@ -350,7 +375,7 @@ def estadoformula(request, pk):
     return render(request,'proyecciones/estadoformula.html', context)
 
 ##Los de las TABLAS
-def estado(request, pk):
+def estado(request, pk, usu):
     try:
         estado = EstadosFinancieros.objects.get(pk=pk)
         if(pk=='6'): #Financiamiento fase 2

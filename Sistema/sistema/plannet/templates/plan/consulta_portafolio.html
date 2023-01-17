@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+{% block titulo %} {{title}} {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% if user.tipo == '2' %}
+
+{% block alumn %}
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-3">
+        <br><br><br>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+              <div class="col-sm-3"></div>
+              <div class="col-sm-6">
+                <img src="{{ alumno.foto.url }}" class="rounded-circle" height="80" width="80">
+              </div>
+              <div class="col-sm-3"></div>
+          </div>
+            <p class="card-text">Nombre:  {{alumno.nombre}}  </p>
+            <p class="card-text">Correo: {{ alumno.correo }} </p>
+            <p class="card-text">Número de boleta: {{ alumno.num }} </p>
+          </div>
+        </div>
+    </div>
+    <div class="col-sm-7">
+        
+
+      <div class="row">
+
+        <div class="container p-3 my-3  text-white" style="background-color: #6481ce">
+            <h6>Fase 1: Identificación de una problemática orientada a una oportunidad de negocio </h6>
+            <br>
+            <!--PRIMER TEMA-->
+                    <div class="row text-dark" style="background-color: #f8f8ff">
+                        <div class="col-sm-10">
+                            <h8>Definición del negocio</h8>
+                        </div>
+                        <div class="col-sm-2">
+                            <a href="{% url 'estadoformulaprofe' 1 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                                Ver
+                              </a>
+                        </div>
+                    </div>
+            <!--FIN TEMA-->
+            <!--SEGUNDO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Misión, visión y objetivos</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estadoformula' 2 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+          </div>
+            <!--FIN TEMA-->
+            <!--TERCER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Características del producto</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 3 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--CUARTO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Presupuesto de mano de obra</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 4 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+        </div>
+        <div class="container p-3 my-3 text-white" style="background-color: #8195d6">
+            <h7>Fase 2: Aplicación de la metodología Design Thinking para generar un proyecto informático</h7>
+            <!--PRIMER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Inversión necesaria</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 5 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--SEGUNDO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Financiamiento</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 6 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+          </div>
+            <div class="container p-3 my-3 text-white" style="background-color: #9ca9df">
+            <h7>Fase 3: Formulación del proyecto informático con base en las etapas y ciclo de vida del proyecto</h7>
+            <!--PRIMER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Análisis de requerimientos</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 7 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->  
+            <!--SEGUNDO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Diseño de la arquitectura de software</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estadoformula' 8 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--TERCER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Actividades para la programación</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 9 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--CUARTO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Actividades para las pruebas e implementación</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estadoformula' 10 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--QUINTO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Actividades para el despliegue o mantenimiento</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estadoformula' 11 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--SEXTO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Documentación</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estadoformula' 12 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+          </div>
+        <div class="container p-3 my-3 text-white" style="background-color: #b5bee7">
+            <h7>Fase 4: Cálculo de flujo neto de efectivo con base en los presupuestos</h7>
+            <!--PRIMER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Presupuesto de inversión</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 13 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--SEGUNDO TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Presupuesto de egresos</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 14 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+            <!--TERCER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Presupuesto de ingresos</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="{% url 'estado' 15 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+        </div>
+        <div class="container p-3 my-3 text-white" style="background-color: #bcc2e1">
+            <h7>Fase 5: Evaluación de la factibilidad del proyecto</h7>
+            <!--PRIMER TEMA-->
+            <div class="row text-dark" style="background-color: #f8f8ff">
+              <div class="col-sm-10">
+                  <h8>Cálculo de flujos netos de efectivo</h8>
+              </div>
+              <div class="col-sm-2">
+                  <a href="#" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                      Ver
+                    </a>
+              </div>
+            </div>
+            <!--FIN TEMA-->
+        </div>
+
+      </div>
+    </div>
+
+
+
+    </div>
+  </div>
+
+  {% endblock %}
+{% endif %}
+
+{% endblock %}

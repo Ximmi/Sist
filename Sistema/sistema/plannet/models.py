@@ -249,3 +249,9 @@ class Requerimientos(models.Model):
     tipo_requerimiento = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1)
     Requerimiento = models.CharField(max_length=50, verbose_name="Descripción del requerimiento", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Requerimientos',null=True, default=None)
+
+class Retroalimentacion(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Retroalimentacion',null=True, default=None)
+    calificacion = models.IntegerField( verbose_name="Calificación", null=True, blank=True)
+    comentario = models.CharField(max_length=50, verbose_name="Retroalimentación", null=True, blank=True)
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Retroalimentacion',null=True, default=None)

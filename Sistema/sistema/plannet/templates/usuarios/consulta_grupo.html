@@ -15,7 +15,9 @@
         <div class="card  border border-info2 rounded shadow p-3 mb-5 bg-body">
             <div class="card-body text-center">
                 <h5 class="card-title">Crea un grupo</h5>
-                <a class="btn btn-colores" id="edita" href ="{% url 'crea_grupo' %}">Crea un grupo</a>
+                <a class="btn btn-light" id="edita" href ="{% url 'crea_grupo' %}" style="background-color: #6481ce">
+                    Crea un grupo
+                </a>
             </div>
         </div>
     <!--/div-->
@@ -24,7 +26,11 @@
         <div class="card  border border-info2 rounded shadow p-3 mb-5 bg-body">
             <div class="card-body text-center">
                 <h5 class="card-title">{{ grupo.nombre_grupo }}</h5>
-                <a class="btn btn-colores" id="edita" href ="{% url 'ver_grupo' grupo.id %}">Ver grupo</a>
+                <h6>Semestre  {{ grupo.ciclo }}  {{ grupo.get_periodo_display }}</h6>
+                <br>
+                <a class="btn btn-light" id="edita" href ="{% url 'ver_grupo' grupo.id %}" style="background-color: #6481ce">
+                    Ver grupo
+                </a>
             </div>
         </div>
 
