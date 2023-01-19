@@ -1,6 +1,6 @@
 from django import forms
 from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
-from .models import Grupos, Definicion, Objetivos, Requerimientos, Retroalimentacion
+from .models import Grupos, Definicion, Objetivos, Requerimientos, Retroalimentacion, DisArquitectura, ActPruebas, ActDespliegue, Documentacion, Gantt
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
 import random
@@ -116,12 +116,40 @@ class AgregaDefinicionForm(forms.ModelForm):
     nombre = forms.CharField(
         label='Nombre del producto',
     )
-    descripcion = forms.CharField(
-        label='Definición',
+    descripcion = forms.Textarea(
+    
     )
     class Meta:
         model = Definicion
-        fields = ['nombre', 'descripcion', 'tipo']
+        fields = ['nombre', 'descripcion', 'tipo', 'clasificacion']
+
+class AgregaDisArquitecturaForm(forms.ModelForm):
+    archivo = forms.FileField(
+    )
+    class Meta:
+        model = DisArquitectura
+        fields = ['archivo']
+
+class AgregaActPruebasForm(forms.ModelForm):
+    archivo = forms.FileField(
+    )
+    class Meta:
+        model = ActPruebas
+        fields = ['archivo']
+
+class AgregaActDespliegueForm(forms.ModelForm):
+    archivo = forms.FileField(
+    )
+    class Meta:
+        model = ActDespliegue
+        fields = ['archivo']
+
+class AgregaDocumentacionForm(forms.ModelForm):
+    archivo = forms.FileField(
+    )
+    class Meta:
+        model = Documentacion
+        fields = ['archivo']
 
 
 class AgregaOjetivoForm(forms.ModelForm):
@@ -141,6 +169,10 @@ class AgregaOjetivoForm(forms.ModelForm):
         model = Objetivos
         fields = ['mision', 'vision', 'objgeneral', 'objespecificos']
 
+class AgregaGanttForm(forms.ModelForm):
+    class Meta:
+        model = Gantt
+        fields = ['fase', 'numtarea', 'asignado', 'estado', 'fechaini', 'fechafin', 'notas', 'predecesora']
 
 class AgregaMaterialesForm(forms.ModelForm):
     costo_anual = forms.IntegerField(

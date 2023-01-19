@@ -9,39 +9,13 @@
     {% if user.tipo == '2' %}  <!--Del profesor-->
         <div class="row">
           <div class="col-sm-1"></div>
-          <div class="col-sm-10">
-
-            <div class="card">
-              <h6 class="card.title">Participantes</h6>
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th> Foto </th>
-                    <th>Nombre de usuario</th>
-                    <th>Grupo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for usi in usuarios %}
-                  <tr>
-                    <td>
-                      <img src="{{ usi.foto.url }}" class="rounded-circle" height="80" width="80">
-                    </td>
-                    <td>
-                      {{ usi.nombre }} {{ usi.apellido }}
-                    </td>
-                    <td>
-                      {{ usi.id_grupo }}
-                    </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-
-              </div>
+          <div class="col-sm-5">
+            <br><br><br>
+            <h6 class="display-4">Bienvenido, {{ user.nombre }}  {{ user.apellido}} </h6>
           </div>
-          <div class="col-sm-1">
-              <br><br><br>
+          <div class="col-sm-6">
+              <img class="img-fluid" src="{% static "images/bground.png" %}" alt="Fondo">
+                    <br><br><br>
           </div>
         </div>
 
@@ -162,7 +136,7 @@
                         <h8>Análisis de requerimientos</h8>
                     </div>
                     <div class="col-sm-2">
-                        <a href="{% url 'estado' 7 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                        <a href="{% url 'estadotabla' 7 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                             Ver
                           </a>
                     </div>
@@ -186,7 +160,7 @@
                         <h8>Actividades para la programación</h8>
                     </div>
                     <div class="col-sm-2">
-                        <a href="{% url 'estado' 9 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                        <a href="{% url 'estadotabla' 9 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                             Ver
                           </a>
                     </div>

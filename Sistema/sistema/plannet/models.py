@@ -31,7 +31,8 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
 
 
     def __str__(self):
-        fila = "Usuario: " + self.nombre + " " + self.apellido + "     Correo: " + self.correo
+       # fila = "Usuario: " + self.nombre + " " + self.apellido + "     Correo: " + self.correo
+        fila =  self.nombre + " " + self.apellido 
         return fila
     
     def delete(self, using=None, keep_parents=False):
@@ -84,7 +85,7 @@ class Grupos(models.Model):
         ordering = ['id', 'nombre_grupo']
 
     def __str__(self):
-        return f"Grupo: {self.nombre_grupo} clave: {self.clave}"
+        return f"{self.nombre_grupo}"
     
     def delete(self, using=None, keep_parents=False):
         super().delete()
@@ -135,20 +136,23 @@ class EstadoUsuario(models.Model):
 
 class Definicion(models.Model):
     CHOICES = [('1', "Software"), ('2', "Hardware"), ('3', "Sistema embebido")]
+    CHOICES2 = [('1', "Producto"), ('2', "Servicio")]
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Definicion',null=True, default=None)
-    nombre = models.CharField(max_length=50, verbose_name="Nombre del Producto", null=True, blank=True)
-    descripcion = models.CharField(max_length=50, verbose_name="Definición", null=True, blank=True)
+    nombre = models.CharField(max_length=100, verbose_name="Nombre del Producto", null=True, blank=True)
+    descripcion = models.CharField(max_length=800, verbose_name="Definición", null=True, blank=True)
     tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
+    clasificacion = models.CharField(choices=CHOICES2, null=True, blank=True, default=1, max_length=1) 
+    id_grupo = models.ForeignKey('Grupos', on_delete=models.CASCADE, blank=True, null=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Definicion',null=True, default=None)
 
 
 
 class Objetivos(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Ojetivos',null=True, default=None)
-    mision = models.CharField(max_length=100, verbose_name="Misión", null=True, blank=True)
-    vision = models.CharField(max_length=100, verbose_name="Visión", null=True, blank=True)
-    objgeneral = models.CharField(max_length=150, verbose_name="Objetivo general", null=True, blank=True)
-    objespecificos = models.CharField(max_length=200, verbose_name="Objetivos específicos", null=True, blank=True)
+    mision = models.CharField(max_length=500, verbose_name="Misión", null=True, blank=True)
+    vision = models.CharField(max_length=500, verbose_name="Visión", null=True, blank=True)
+    objgeneral = models.CharField(max_length=300, verbose_name="Objetivo general", null=True, blank=True)
+    objespecificos = models.CharField(max_length=500, verbose_name="Objetivos específicos", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Objetivos',null=True, default=None)
 
 class Ingresos(models.Model):
@@ -250,8 +254,50 @@ class Requerimientos(models.Model):
     Requerimiento = models.CharField(max_length=50, verbose_name="Descripción del requerimiento", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Requerimientos',null=True, default=None)
 
+class Gantt(models.Model):
+    CHOICES = [('1', "Planeación"),('2', "Análisis"), ('3', "Diseño"), ('4', "Desarrollo"),
+                ('5', "Pruebas"), ('6', "Implementación"), ('7', "Cierre del proyecto")
+    ]
+    CHOICES2 = [('1', "No iniciada"), ('2', "En progreso"), ('3', "Finalizada")]
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Gantt',null=True, default=None)
+    fase = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1)
+    numtarea = models.IntegerField( verbose_name="Número de tarea", null=True, blank=True)
+    asignado = models.CharField(max_length=80, verbose_name="Asignado a", null=True, blank=True)
+    estado = models.CharField(choices=CHOICES2, null=True, blank=True, default=1, max_length=1)
+    fechaini = models.DateField(verbose_name="Fecha inicial")
+    fechafin = models.DateField(verbose_name="Fecha final")
+    notas = models.CharField(max_length=100, verbose_name="Notas y comentarios", null=True, blank=True)
+    predecesora = models.IntegerField( verbose_name="Tarea predecesora", null=True, blank=True)
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Gantt',null=True, default=None)
+
+
+class DisArquitectura(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_DisArquitectura',null=True, default=None)
+    archivo = models.FileField()
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_DisArquitectura',null=True, default=None)
+
+class ActPruebas(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_ActPruebas',null=True, default=None)
+    archivo = models.FileField()
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_ActPruebas',null=True, default=None)
+
+class ActDespliegue(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_ActDespliegue',null=True, default=None)
+    archivo = models.FileField()
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_ActDespliegue',null=True, default=None)
+
+class Documentacion(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Documentacion',null=True, default=None)
+    archivo = models.FileField()
+    id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Documentacion',null=True, default=None)
+
+
+
 class Retroalimentacion(models.Model):
+    CHOICES = [('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5),
+                ('6', 6), ('7', 7), ('8', 8), ('9', 9), ('10', 10)
+                ]
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Retroalimentacion',null=True, default=None)
-    calificacion = models.IntegerField( verbose_name="Calificación", null=True, blank=True)
+    calificacion = models.IntegerField(choices=CHOICES, null=True, blank=True, default=1, max_length=2)
     comentario = models.CharField(max_length=50, verbose_name="Retroalimentación", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Retroalimentacion',null=True, default=None)

@@ -7,14 +7,15 @@ from urllib.request import Request
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
-from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable
+from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
-from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm
+from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm, AgregaDisArquitecturaForm, AgregaActPruebasForm, AgregaActDespliegueForm, AgregaDocumentacionForm, AgregaGanttForm
 from .models import Definicion, Objetivos, Requerimientos
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
+from django.db.models import Q
 
 
 
@@ -29,6 +30,28 @@ def inicio(request):
 def nosotros(request):
     return render(request, 'paginas/nosotros.html')
 
+
+def busquedarepo(request):
+    queryset = request.GET.get("buscar")
+    print(queryset)
+    pubs = Definicion.objects.select_related('id_usuario')
+    print('Pubs:')
+    print(pubs)
+    posts = Definicion.objects.filter()
+
+    if(queryset):
+        posts = Definicion.objects.filter(
+            Q(nombre__icontains = queryset) | 
+            Q(descripcion__icontains = queryset)
+        ).distinct()
+    posts = posts.select_related('id_usuario') 
+    posts = posts.select_related('id_grupo')
+    for i in posts:
+        print(i.id_usuario.id)
+        print(i.id_grupo.id_responsable.id)
+    print(posts)
+    context = {'title':'Repositorio', 'posts': posts}
+    return render(request, 'plan/busquedarepo.html', context)
 
 def contacto(request):
     return render(request, 'paginas/contacto.html')
@@ -337,10 +360,58 @@ def estadoformulaprofe(request, pk, usu):
     context =  context = {'title': estado.nombre_estado, 'definicion':definicion, 'subtitulo':estado.nombre_estado, 'form': formulario, 'boton': "Evaluar"}
     return render(request, 'proyecciones/estadoformulaprofe.html', context)
 
+
+
+def estadotabla(request, pk):
+    try:
+        estado = EstadosFinancieros.objects.get(pk=pk)
+        if(pk=='7'):
+            from .models import Requerimientos
+            formulario = AgregaRequerimientoForm(request.POST or None, request.FILES or None)
+            tabla = RequerimientosTable(Requerimientos.objects.filter(id_estado=estado, id_usuario = request.user),per_page_field=5)
+            if formulario.is_valid():
+                requerimiento = Requerimientos.objects.model(
+                   id_usuario = request.user,
+                   numero = formulario.cleaned_data['numero'],
+                   tipo_requerimiento = formulario.cleaned_data['tipo_requerimiento'],
+                   Requerimiento = formulario.cleaned_data['Requerimiento'],
+                   id_estado = estado
+                )
+                requerimiento.save()
+                messages.success(request, "Requerimientos agregados")
+                return HttpResponseRedirect(reverse('estadotabla', args=(estado.id,)))
+        elif (pk=='9'):
+            from .models import Gantt
+            formulario = AgregaGanttForm(request.POST or None, request.FILES or None)
+            tabla = GanttTable(Gantt.objects.filter(id_estado=estado, id_usuario = request.user),per_page_field=5)
+            if formulario.is_valid():
+                gantt = Gantt.objects.model(
+                   id_usuario = request.user,
+                   fase = formulario.cleaned_data['fase'],
+                   numtarea = formulario.cleaned_data['numtarea'],
+                   asignado = formulario.cleaned_data['asignado'],
+                   estado = formulario.cleaned_data['estado'],
+                   fechaini = formulario.cleaned_data['fechaini'],
+                   fechafin = formulario.cleaned_data['fechafin'],
+                   notas = formulario.cleaned_data['notas'],
+                   predecesora = formulario.cleaned_data['predecesora'],
+                   id_estado = estado
+                )
+                gantt.save()
+                messages.success(request, "Actividades para la programación agregadas")
+                return HttpResponseRedirect(reverse('estadotabla', args=(estado.id,)))
+    except EstadosFinancieros.DoesNotExist:
+        raise Http404("El Estado Financiero no existe")
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar"}
+    return render(request,'proyecciones/estadotabla.html', context)
+
+
 def estadoformula(request, pk):
     try:
         estado = EstadosFinancieros.objects.get(pk=pk)
         if(pk=='1'):
+            print('info del request: ' + str(request.user) )
+            print('id_grupo: ' + str(request.user.id_grupo) )
             formulario = AgregaDefinicionForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
                 from .models import Definicion
@@ -349,6 +420,8 @@ def estadoformula(request, pk):
                    nombre = formulario.cleaned_data['nombre'],
                    tipo = formulario.cleaned_data['tipo'],
                    descripcion = formulario.cleaned_data['descripcion'],
+                   clasificacion = formulario.cleaned_data['clasificacion'],
+                   id_grupo = request.user.id_grupo,
                    id_estado = estado
                 )
                 definicion.save()
@@ -369,13 +442,63 @@ def estadoformula(request, pk):
                 objetivos.save()
                 messages.success(request, "Misión, Visión u Objetivos agregados")
                 return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+
+        elif (pk=='8'):
+            formulario = AgregaDisArquitecturaForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import DisArquitectura
+                arquitectura = DisArquitectura.objects.model(
+                   id_usuario = request.user,
+                   archivo = formulario.cleaned_data['archivo'],
+                   id_estado = estado
+                )
+                arquitectura.save()
+                messages.success(request, "Archivo del Diseño de la arquitectura agregado")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+        elif (pk=='10'):
+            formulario = AgregaActPruebasForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import ActPruebas
+                actividad = ActPruebas.objects.model(
+                   id_usuario = request.user,
+                   archivo = formulario.cleaned_data['archivo'],
+                   id_estado = estado
+                )
+                actividad.save()
+                messages.success(request, "Archivo de las actividades para la programación agregado")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+        elif (pk=='11'):
+            formulario = AgregaActDespliegueForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import ActDespliegue
+                actividad = ActDespliegue.objects.model(
+                   id_usuario = request.user,
+                   archivo = formulario.cleaned_data['archivo'],
+                   id_estado = estado
+                )
+                actividad.save()
+                messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+        elif (pk=='12'):
+            formulario = AgregaActDespliegueForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import ActDespliegue
+                actividad = ActDespliegue.objects.model(
+                   id_usuario = request.user,
+                   archivo = formulario.cleaned_data['archivo'],
+                   id_estado = estado
+                )
+                actividad.save()
+                messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
+                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+
     except EstadosFinancieros.DoesNotExist:
         raise Http404("El Estado Financiero no existe") 
     context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado,  'form':formulario, 'boton': "Entregar"}
     return render(request,'proyecciones/estadoformula.html', context)
 
 ##Los de las TABLAS
-def estado(request, pk, usu):
+def estado(request, pk):
     try:
         estado = EstadosFinancieros.objects.get(pk=pk)
         if(pk=='6'): #Financiamiento fase 2
@@ -471,25 +594,7 @@ def estado(request, pk, usu):
                 mobra.save()
                 messages.success(request, "Puesto agregado")
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        elif(pk=='7'): #Requerimientos fase 3
-            js='/js/EstadosFinancieros/requerimientos.js'
-            from .models import Requerimientos
-            tabla = RequerimientosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
-            formulario = AgregaRequerimientoForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                requerim = Requerimientos.objects.model(
-                    id_usuario = request.user,
-                    numero = formulario.cleaned_data['numero'],
-                    tipo_requerimiento = formulario.cleaned_data['tipo_requerimiento'],
-                    Requerimiento = formulario.cleaned_data['Requerimiento'],
-                    id_estado = estado
-                )
-                requerim.save()
-                messages.success(request, "Requerimiento agregado")
-                return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
-        else:
-            tabla = GrupoTable(Usuarios.objects.filter(), per_page_field=5)
-            formulario = AgregaIngresosForm(request.POST or None, request.FILES or None)
+
     except EstadosFinancieros.DoesNotExist:
         raise Http404("El Estado Financiero no existe")
     context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar", 'js':js}
@@ -662,3 +767,25 @@ def elimina_inversion(request, pk):
     messages.success(request, "Inversión eliminada")
     return HttpResponseRedirect(reverse('estado', args=(inversion.id_estado.id, )))
 
+
+
+def edita_requerimiento(request, pk):
+    try: 
+        print(pk)
+        requer = Requerimientos.objects.get(pk=pk)
+        formulario = AgregaRequerimientoForm(request.POST or None, request.FILES or None, instance=requer)
+        if formulario.is_valid():
+            requer_editado = formulario.save()
+            requer_editado.save()
+            messages.success(request, "Envase actualizado")
+            return HttpResponseRedirect(reverse('estado', args=(requer_editado.id_estado.id, )))
+    except Envase.DoesNotExist:
+        raise Http404("Envases no existe")   
+    context = {'title': 'Edita envase','subtitulo':'Edita envase',  'form':formulario, 'boton': "Editar"}
+    return render(request,'proyecciones/edita_estado.html', context)
+
+def elimina_requerimiento(request, pk):
+    requer = get_object_or_404(Requerimientos, pk=pk)
+    requer.delete()
+    messages.success(request, "Requerimiento eliminado")
+    return HttpResponseRedirect(reverse('estadoformula', args=(requer.id_estado.id, )))

@@ -9,7 +9,7 @@
 <div class="row">
     <div class="col-sm-1">
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-2">
         <div class="card">
           <div class="card-body">
             <h5 class="card-title text-center">{{ subtitulo }}</h5>
@@ -21,7 +21,7 @@
                   {% bootstrap_field field %}
               {% endfor %}
               {% buttons %}
-              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
                 {{boton}}
               </button>
             {% endbuttons %}
@@ -29,7 +29,16 @@
           </div>
         </div>
       </div>
-
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ subtitulo }}</h5>
+          <div class="table-responsive">
+            {% render_table tabla %}
+          </div>
+        </div>
+      </div>
+    </div>
     
   </div>
 

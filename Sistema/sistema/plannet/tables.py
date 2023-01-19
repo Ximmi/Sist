@@ -2,7 +2,7 @@ from django.utils.html import format_html
 import django_tables2 as tables
 import babel.numbers
 from django_tables2.utils import A
-from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase, Requerimientos
+from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase, Requerimientos, Gantt
 
 def FormatoMoneda(value):
     return babel.numbers.format_currency(value, 'MXN', locale="es_MX")
@@ -22,11 +22,11 @@ class GrupoTable(tables.Table):
                                         args = [A("pk")],
                                         attrs={"a":{"class":"btn btn-light"}},
                                         orderable=False
-                                        )
+                                        )                                      
     class Meta:
         model = Usuarios
         template_name = "django_tables2/bootstrap4.html"
-        fields = ("foto","nombre", "apellido", "correo", "portafolio" ) 
+        fields = ("foto","nombre", "apellido", "num", "portafolio" ) 
         attrs = {"class": "table table-hover"}
 
     def render_foto(self, value):
@@ -38,7 +38,7 @@ class GrupoTable(tables.Table):
             self.columns.show('portafolio')
             print('cayo en el if')
         else:
-            self.columns.show('portafolio')
+            #self.columns.show('portafolio')
             print('cayo en el else')
 
 
@@ -317,7 +317,7 @@ class RequerimientosTable(tables.Table):
                                         attrs={"a":{"class":"btn btn-colores"}},
                                         orderable=False
                                         )
-    eliminar = tables.LinkColumn("elimina_ingreso",
+    eliminar = tables.LinkColumn("elimina_requerimiento",
                                         verbose_name="Elimina requerimiento",
                                         text ="Eliminar",
                                         args = [A("pk")],
@@ -329,3 +329,28 @@ class RequerimientosTable(tables.Table):
         template_name = "django_tables2/bootstrap4.html"
         fields = ("numero","tipo_requerimiento", "Requerimiento", "editar", "eliminar") 
         attrs = {"class": "table table-hover"}
+
+
+class GanttTable(tables.Table):
+    editar = tables.LinkColumn("edita_tarea",
+                                        verbose_name="Edita tarea",
+                                        text ="Editar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-colores"}},
+                                        orderable=False
+                                        )
+    eliminar = tables.LinkColumn("elimina_tarea",
+                                        verbose_name="Elimina tarea",
+                                        text ="Eliminar",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-lila"}},
+                                        orderable=False
+                                        )
+    class Meta:
+        model = Gantt
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ("fase","numtarea", "asignado", "estado", "fechaini", "fechafin", "notas", "predecesora",
+         "editar", "eliminar") 
+        attrs = {"class": "table table-hover"}
+
+

@@ -43,5 +43,7 @@
 {% block javascript %}
 {% if js %}
         <script src="{% static js|safe %}"></script>
-    {% endif %}
+        {% else %}
+        <br>
+{% endif %}
 {% endblock %}

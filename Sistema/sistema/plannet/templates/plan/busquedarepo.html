@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% block titulo %} {{title}} {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% if user.tipo == '2' %}
+
+
+<div class=" container">
+    <br><br>
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            <form method="get">
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value ="{{ request.GET.buscar }}">
+                        <span class="input-group-list">
+                            <i class="icon icon-search"></i>
+                            <button type="submit" class="btn btn-light" style="border-radius: 20px">
+                                Buscar
+                            </button>
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+            {% if posts %}
+            
+
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">No.</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Grupo</th>
+                    <th scope="col">Semestre</th>
+                    <th scope="col">Periodo</th>
+                    <th scope="col">Docente</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Portafolio</th>  
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for post in posts %}
+                  <tr>
+                    <td>{{ post.id }} </td>
+                    <td>{{ post.get_tipo_display }}</td>
+                    <td>{{ post.id_grupo }}</td>   
+                    <td>{{ post.id_grupo.ciclo }}</td>
+                    <td>{{ post.id_grupo.get_periodo_display }}</td>
+                    <td> {{ post.id_grupo.id_responsable }}</td>
+                    <td>{{ post.nombre }}</td>
+                    <td>
+                        <a href="{% url 'consulta_portafolio' post.id_usuario.id %}" class="btn btn-light" style="border-radius: 20px">
+                            Ver
+                          </a>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+            {% else %}
+                <h8>No hay proyectos definidos por el momento</h8>
+            {% endif %}
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+
+
+</div> <!--DEL CONTENEDOR-->
+
+{% endif %}
+
+{% endblock %}
