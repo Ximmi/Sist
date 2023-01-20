@@ -30,6 +30,11 @@ class  EditaProfesorForm(forms.ModelForm):
         fields = ['correo','foto']
 
 
+class EditaRetroalimentacionForm(forms.ModelForm):
+    class Meta:
+        model = Retroalimentacion
+        fields = ['calificacion', 'comentario']
+
 class EditaDefinicionForm(forms.ModelForm):
     class Meta:
         model = Definicion

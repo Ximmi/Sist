@@ -22,7 +22,6 @@
               <h6>Nombre del proyecto: {{ definicion.nombre }}</h6>
               <h6>Tipo: {{ definicion.get_tipo_display }}</h6>
               <h6>Descripción: {{ definicion.descripcion }}</h6>
-              <p>Actividad no encontrada</p>
               {% endif %}
 
             {% elif actividad == '2' %}
@@ -102,7 +101,7 @@
               <p>Calificación: {{ retroactual.calificacion }}</p>
               <p>Retroalimentación: {{ retroactual.comentario }}</p>
               <br>
-              <a class="btn btn-light" id="edita" href ="#" style="border-radius: 20px;background-color: #6481ce">
+              <a class="btn btn-light" id="edita" href ="{% url 'editar_retro' retroactual.id %}" style="border-radius: 20px;background-color: #6481ce">
                 Editar
             </a>
             {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->

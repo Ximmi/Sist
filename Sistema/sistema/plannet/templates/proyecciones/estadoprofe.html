@@ -10,11 +10,12 @@
     <div class="col-sm-1">
     </div>
     
-    {% if retroactual == '1' %}
+    
     <div class="col-sm-2">
         <div class="card">
-          <div class="card-body">
+          <div class="card-body">     
             <h5 class="card-title text-center">{{ subtitulo }}</h5>
+            {% if retroactual == '1' %}
             <form enctype="multipart/form-data" method="post" class="form">
               <!--Verifica si es una petición válida-->
               {% csrf_token %}
@@ -28,18 +29,21 @@
               </button>
             {% endbuttons %}
             </form>
+            {% else %} <!--En caso de que ya cuente con retroalimentación-->
+                  
+            <p>Calificación: {{ retroactual.calificacion }}</p>
+            <p>Retroalimentación: {{ retroactual.comentario }}</p>
+            <br>
+            <a class="btn btn-light" id="edita" href ="{% url 'editar_retro' retroactual.id %}" style="border-radius: 20px;background-color: #6481ce">
+                Editar
+            </a>
+            {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->
+
           </div>
         </div>
       </div>
 
-      {% else %} <!--En caso de que ya cuente con retroalimentación-->
-      <p>Calificación: {{ retroactual.calificacion }}</p>
-      <p>Retroalimentación: {{ retroactual.comentario }}</p>
-      <br>
-      <a class="btn btn-light" id="edita" href ="#" style="border-radius: 20px;background-color: #6481ce">
-        Editar
-    </a>
-    {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->
+
 
 
     <div class="col-sm-8">

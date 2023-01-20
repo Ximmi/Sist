@@ -2,7 +2,7 @@ from django.utils.html import format_html
 import django_tables2 as tables
 import babel.numbers
 from django_tables2.utils import A
-from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase, Requerimientos, Gantt
+from .models import Grupos, Inversion, Usuarios, PlandeNegocio, Ingresos, Materiales, Envase, Requerimientos, Gantt, Retroalimentacion
 
 def FormatoMoneda(value):
     return babel.numbers.format_currency(value, 'MXN', locale="es_MX")
@@ -22,7 +22,7 @@ class GrupoTable(tables.Table):
                                         args = [A("pk")],
                                         attrs={"a":{"class":"btn btn-light"}},
                                         orderable=False
-                                        )                                      
+                                        )                                  
     class Meta:
         model = Usuarios
         template_name = "django_tables2/bootstrap4.html"
@@ -354,3 +354,28 @@ class GanttTable(tables.Table):
         attrs = {"class": "table table-hover"}
 
 
+class RetroalimentacionTable(tables.Table):
+    portafolio = tables.LinkColumn("consulta_portafolio",
+                                        verbose_name="Portafolio de evidencias",
+                                        text ="Ver portafolio",
+                                        args = [A("pk")],
+                                        attrs={"a":{"class":"btn btn-light"}},
+                                        orderable=False
+                                        )                                  
+    class Meta:
+        model = Usuarios
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ("foto","nombre", "apellido", "num", "portafolio" ) 
+        attrs = {"class": "table table-hover"}
+
+    def render_foto(self, value):
+        return format_html("<img src=\"/images/{}\" class=\"rounded-circle\" height=\"30\" width=\"30\">", value)
+
+    def before_render(self, request):
+        #if request.user.has_perm('plannet.view_plandenegocio'):
+        if request.user.tipo == '2':
+            self.columns.show('portafolio')
+            print('cayo en el if')
+        else:
+            #self.columns.show('portafolio')
+            print('cayo en el else')

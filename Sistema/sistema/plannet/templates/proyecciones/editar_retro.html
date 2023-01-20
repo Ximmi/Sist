@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block titulo %} {{title}} {% endblock %}
+{% block contenido %}
+{% load static %}
+{% load bootstrap4 %}
+
+{%if user.is_authenticated %}
+<div class="row"><br /><br /></div>
+<div class="row">
+    <div class="col-sm-2">
+    </div>
+    <div class="col-sm-8">
+
+      <div class="row">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ subtitulo }}</h5>
+            <form enctype="multipart/form-data" method="post" class="form">
+              <!--Verifica si es una petición válida-->
+              {% csrf_token %}
+              <!--Aquí cargamos el formulario-->
+              {% for field in form %}
+                  {% bootstrap_field field %}
+              {% endfor %}
+              {% buttons %}
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">
+                {{boton}}
+              </button>
+            {% endbuttons %}
+            </form>
+          </div>
+        </div>
+
+      </div>
+        
+    </div>
+    <div class="col-sm-2">
+    </div>
+  </div>
+  <br><br>
+
+  {% else %}
+  <p>Por favor, inicia sesión para ver un perfil</p>
+  {% endif %}
+
+{% endblock %}

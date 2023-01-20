@@ -7,11 +7,12 @@ from urllib.request import Request
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
-from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable
+from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable, RetroalimentacionTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
+from .forms import EditaRetroalimentacionForm
 from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm, AgregaDisArquitecturaForm, AgregaActPruebasForm, AgregaActDespliegueForm, AgregaDocumentacionForm, AgregaGanttForm, EditaDefinicionForm
-from .models import Definicion, Objetivos, Requerimientos
+from .models import Definicion, Objetivos, Requerimientos, Retroalimentacion
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -125,6 +126,18 @@ def cerrar_sesion(request):
 def terminos(request):
     return render(request, 'usuarios/terminos.html')
 
+def editar_retro(request, pk):
+    retroalimentacion = Retroalimentacion.objects.get(pk=pk)
+    print(retroalimentacion)
+    formulario = EditaRetroalimentacionForm(request.POST or None, request.FILES or None, instance = retroalimentacion)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            retromodificada = formulario.save()
+            print(retroalimentacion)
+            retromodificada.save()
+            messages.success(request, "Calificación actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
 
 def editar_perfil(request):
     print(request.user)
@@ -323,7 +336,7 @@ def consulta_portafolio(request, pk):
 def ver_grupo(request, id_grupo):
     try:
         grupo = Grupos.objects.get(pk=id_grupo)
-        tabla = GrupoTable(Usuarios.objects.filter(id_grupo=id_grupo), per_page_field=5)
+        tabla = RetroalimentacionTable(Usuarios.objects.filter(id_grupo=id_grupo), per_page_field=5)
         
     except Grupos.DoesNotExist:
         raise Http404("El grupo no existe")
@@ -984,7 +997,7 @@ def estadoprofe(request, pk, usu):
                     messages.success(request, "Retralimentación agregada")
                     return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
         
-        elif(pk == '5'):
+        elif(pk == '5'): #Inversión necesaria fase 2
             js='/js/EstadosFinancieros/gastosventa.js'
             from .models import GastoVenta, Retroalimentacion
             tabla = GastoVentaTable(GastoVenta.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)

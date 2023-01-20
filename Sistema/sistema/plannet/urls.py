@@ -36,6 +36,7 @@ urlpatterns = [
     path('estadoprofe/<pk>/<usu>/', views.estadoprofe, name='estadoprofe'),
     path('estadoformula/<pk>/', views.estadoformula, name='estadoformula'),
     path('edita_ingreso/<pk>/', views.edita_ingreso, name='edita_ingreso'),
+    path('editar_retro/<pk>/', views.editar_retro, name='editar_retro'),
     path('elimina_ingreso/<pk>/', views.elimina_ingreso, name='elimina_ingreso'),
     path('edita_materiales/<pk>/', views.edita_materiales, name='edita_materiales'),
     path('elimina_materiales/<pk>/', views.elimina_materiales, name='elimina_materiales'),
