@@ -27,6 +27,22 @@
             <p class="card-text">Número de boleta: {{ alumno.num }} </p>
           </div>
         </div>
+
+
+        <br><br><br>
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"></h5>
+            <div class="row">
+              <div class="col-sm-3"></div>
+              <div class="col-sm-6">
+                <a href="#" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Reportar portafolio</a>
+              </div>
+              <div class="col-sm-3"></div>
+            </div>
+          </div>
+        </div>
+
     </div>
     <div class="col-sm-7">
         
@@ -54,7 +70,7 @@
                   <h8>Misión, visión y objetivos</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estadoformula' 2 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoformulaprofe' 2 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -66,7 +82,7 @@
                   <h8>Características del producto</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estado' 3 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoprofe' 3 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -105,7 +121,7 @@
                   <h8>Financiamiento</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estado' 6 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoprofe' 6 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -132,7 +148,7 @@
                   <h8>Diseño de la arquitectura de software</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estadoformula' 8 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoformulaprofe' 8 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -156,7 +172,7 @@
                   <h8>Actividades para las pruebas e implementación</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estadoformula' 10 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoformulaprofe' 10 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -168,7 +184,7 @@
                   <h8>Actividades para el despliegue o mantenimiento</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estadoformula' 11 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoformulaprofe' 11 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -180,7 +196,7 @@
                   <h8>Documentación</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estadoformula' 12 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoformulaprofe' 12 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>
@@ -219,7 +235,7 @@
                   <h8>Presupuesto de ingresos</h8>
               </div>
               <div class="col-sm-2">
-                  <a href="{% url 'estado' 15 %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
+                  <a href="{% url 'estadoprofe' 15 alumno.id %}" class="btn btn-light" style="border-radius: 20px;background-color: #a2a2a2; border-color: #a2a2a2;">
                       Ver
                     </a>
               </div>

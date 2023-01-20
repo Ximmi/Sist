@@ -10,7 +10,7 @@ from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpRespons
 from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
-from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm, AgregaDisArquitecturaForm, AgregaActPruebasForm, AgregaActDespliegueForm, AgregaDocumentacionForm, AgregaGanttForm
+from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm, AgregaDisArquitecturaForm, AgregaActPruebasForm, AgregaActDespliegueForm, AgregaDocumentacionForm, AgregaGanttForm, EditaDefinicionForm
 from .models import Definicion, Objetivos, Requerimientos
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -33,12 +33,7 @@ def nosotros(request):
 
 def busquedarepo(request):
     queryset = request.GET.get("buscar")
-    print(queryset)
-    pubs = Definicion.objects.select_related('id_usuario')
-    print('Pubs:')
-    print(pubs)
     posts = Definicion.objects.filter()
-
     if(queryset):
         posts = Definicion.objects.filter(
             Q(nombre__icontains = queryset) | 
@@ -46,10 +41,7 @@ def busquedarepo(request):
         ).distinct()
     posts = posts.select_related('id_usuario') 
     posts = posts.select_related('id_grupo')
-    for i in posts:
-        print(i.id_usuario.id)
-        print(i.id_grupo.id_responsable.id)
-    print(posts)
+
     context = {'title':'Repositorio', 'posts': posts}
     return render(request, 'plan/busquedarepo.html', context)
 
@@ -343,21 +335,153 @@ def estadoformulaprofe(request, pk, usu):
     alumno = Usuarios.objects.get(pk=usu)
     print('Alumno: ' + str(alumno.id) + str(alumno.nombre) + str(alumno.apellido))
     if(pk=='1'):
-        from .models import Definicion
-        definicion = Definicion.objects.get(id_usuario= alumno.id)
-        formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
-        if formulario.is_valid():
-            from .models import Retroalimentacion
-            retroalimentacion = Retroalimentacion.objects.model(
-                id_usuario = alumno,
-                calificacion = formulario.cleaned_data['calificacion'],
-                comentario = formulario.cleaned_data['comentario'],
-                id_estado = estado
-            )
-            retroalimentacion.save()
-            messages.success(request, "Retroalimentación agregada")
-            return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
-    context =  context = {'title': estado.nombre_estado, 'definicion':definicion, 'subtitulo':estado.nombre_estado, 'form': formulario, 'boton': "Evaluar"}
+        actividad = '1'
+        from .models import Definicion, Retroalimentacion
+        if Definicion.objects.filter(id_usuario= alumno.id).exists():
+            definicion = Definicion.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else: #si no existe se agrega
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+    if(pk=='2'):
+        actividad = '2'
+        from .models import Objetivos, Retroalimentacion
+        if Objetivos.objects.filter(id_usuario= alumno.id).exists():
+            definicion = Objetivos.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else:
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+    if(pk=='8'):
+        actividad = '8'
+        from .models import DisArquitectura, Retroalimentacion
+        if DisArquitectura.objects.filter(id_usuario= alumno.id).exists():
+            definicion = DisArquitectura.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else:
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+
+    if(pk=='10'):
+        actividad = '10'
+        from .models import ActPruebas, Retroalimentacion
+        if ActPruebas.objects.filter(id_usuario= alumno.id).exists():
+            definicion = ActPruebas.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else:
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+
+    if(pk=='11'):
+        actividad = '11'
+        from .models import ActDespliegue, Retroalimentacion
+        if ActDespliegue.objects.filter(id_usuario= alumno.id).exists():
+            definicion = ActDespliegue.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else:
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+    if(pk=='12'):
+        actividad = '12'
+        from .models import Documentacion, Retroalimentacion
+        if Documentacion.objects.filter(id_usuario= alumno.id).exists():
+            definicion = Documentacion.objects.get(id_usuario= alumno.id)
+        else:
+            definicion = '0'
+        if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+            retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+            formulario = '2'
+        else:
+            retroactual = '1'
+            formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+            if formulario.is_valid():
+                from .models import Retroalimentacion
+                retroalimentacion = Retroalimentacion.objects.model(
+                    id_usuario = alumno,
+                    calificacion = formulario.cleaned_data['calificacion'],
+                    comentario = formulario.cleaned_data['comentario'],
+                    id_estado = estado
+                )
+                retroalimentacion.save()
+                messages.success(request, "Retroalimentación agregada")
+                return HttpResponseRedirect(reverse('estadoformulaprofe', args=(estado.id,alumno.id)))
+    print('actividad = ' + actividad)
+    context =  context = {'title': estado.nombre_estado, 'actividad': actividad, 'definicion':definicion, 'subtitulo':estado.nombre_estado, 'form': formulario, 'boton': "Evaluar", 'retroactual': retroactual}
     return render(request, 'proyecciones/estadoformulaprofe.html', context)
 
 
@@ -789,3 +913,121 @@ def elimina_requerimiento(request, pk):
     requer.delete()
     messages.success(request, "Requerimiento eliminado")
     return HttpResponseRedirect(reverse('estadoformula', args=(requer.id_estado.id, )))
+
+
+
+def estadoprofe(request, pk, usu):
+    try:
+        estado = EstadosFinancieros.objects.get(pk=pk)
+        alumno = Usuarios.objects.get(pk = usu)
+        if(pk=='6'): #Financiamiento fase 2
+            js='/js/EstadosFinancieros/inversiones.js'
+            from .models import Inversion, Retroalimentacion
+            tabla = InversionesTable(Inversion.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
+            if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+                formulario = '2'
+            else:
+                retroactual = '1'
+                formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Retroalimentacion
+                    retroalimentacion = Retroalimentacion.objects.model(
+                        id_usuario = alumno,
+                        calificacion = formulario.cleaned_data['calificacion'],
+                        comentario = formulario.cleaned_data['comentario'],
+                        id_estado = estado
+                    )
+                    retroalimentacion.save()
+                    messages.success(request, "Retralimentación agregada")
+                    return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id, alumno.id)))
+        elif(pk=='15'): #Ingresos fase 4
+            js='/js/EstadosFinancieros/ingresos.js'
+            from .models import Ingresos, Retroalimentacion
+            tabla = IngresosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
+            if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+                formulario = '2'
+            else:
+                retroactual = '1'
+                formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Retroalimentacion
+                    retroalimentacion = Retroalimentacion.objects.model(
+                        id_usuario = alumno,
+                        calificacion = formulario.cleaned_data['calificacion'],
+                        comentario = formulario.cleaned_data['comentario'],
+                        id_estado = estado
+                    )
+                    retroalimentacion.save()
+                    messages.success(request, "Retralimentación agregada")
+                    return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
+        elif(pk == '3'): #Caracteristicas del producto fase 1
+            js='/js/EstadosFinancieros/materiales.js'
+            from .models import Materiales, Retroalimentacion
+            tabla = MaterialesTable(Materiales.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
+            if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+                formulario = '2'
+            else:
+                retroactual = '1'
+                formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Retroalimentacion
+                    retroalimentacion = Retroalimentacion.objects.model(
+                        id_usuario = alumno,
+                        calificacion = formulario.cleaned_data['calificacion'],
+                        comentario = formulario.cleaned_data['comentario'],
+                        id_estado = estado
+                    )
+                    retroalimentacion.save()
+                    messages.success(request, "Retralimentación agregada")
+                    return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
+        
+        elif(pk == '5'):
+            js='/js/EstadosFinancieros/gastosventa.js'
+            from .models import GastoVenta, Retroalimentacion
+            tabla = GastoVentaTable(GastoVenta.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
+            if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+                formulario = '2'
+            else:
+                retroactual = '1'
+                formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Retroalimentacion
+                    retroalimentacion = Retroalimentacion.objects.model(
+                        id_usuario = alumno,
+                        calificacion = formulario.cleaned_data['calificacion'],
+                        comentario = formulario.cleaned_data['comentario'],
+                        id_estado = estado
+                    )
+                    retroalimentacion.save()
+                    messages.success(request, "Retroalimentación agregada")
+                    return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
+        elif(pk == '4'): # presupuesto de mano de obra fase 1
+            js='/js/EstadosFinancieros/manoobra.js'
+            from .models import ManoObra
+            tabla = ManoObraTable(ManoObra.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
+            if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)
+                formulario = '2'
+            else:
+                retroactual = '1'
+                formulario = AgregaRetroalimentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Retroalimentacion
+                    retroalimentacion = Retroalimentacion.objects.model(
+                        id_usuario = alumno,
+                        calificacion = formulario.cleaned_data['calificacion'],
+                        comentario = formulario.cleaned_data['comentario'],
+                        id_estado = estado
+                    )
+                    retroalimentacion.save()
+                    messages.success(request, "Retroalimentación agregada")
+                    return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
+
+    except EstadosFinancieros.DoesNotExist:
+        raise Http404("El Estado Financiero no existe")
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar", 'js':js, 'retroactual': retroactual}
+    return render(request,'proyecciones/estadoprofe.html', context)

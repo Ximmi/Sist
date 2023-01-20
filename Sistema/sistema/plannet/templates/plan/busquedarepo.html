@@ -15,13 +15,20 @@
             <form method="get">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" class="form-control" placeholder="Buscar..." name="buscar" value ="{{ request.GET.buscar }}">
-                        <span class="input-group-list">
-                            <i class="icon icon-search"></i>
-                            <button type="submit" class="btn btn-light" style="border-radius: 20px">
-                                Buscar
-                            </button>
-                        </span>
+                        
+                            
+                                <input type="text" class="form-control" placeholder="Buscar por palabra clave ..." name="buscar" value ="{{ request.GET.buscar }}">
+                            
+                            
+                            
+                                <span class="input-group-list">
+                                    <i class="icon icon-search"></i>
+                                    <button type="submit" class="btn btn-light" style="border-radius: 20px">
+                                        Buscar
+                                    </button>
+                                </span>
+                            
+                          
                     </div>
                 </div>
             </form>

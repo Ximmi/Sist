@@ -294,10 +294,7 @@ class Documentacion(models.Model):
 
 
 class Retroalimentacion(models.Model):
-    CHOICES = [('1', 1), ('2', 2), ('3', 3), ('4', 4), ('5', 5),
-                ('6', 6), ('7', 7), ('8', 8), ('9', 9), ('10', 10)
-                ]
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Retroalimentacion',null=True, default=None)
-    calificacion = models.IntegerField(choices=CHOICES, null=True, blank=True, default=1, max_length=2)
+    calificacion = models.IntegerField( verbose_name="Calificación", null=True, blank=True)
     comentario = models.CharField(max_length=50, verbose_name="Retroalimentación", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Retroalimentacion',null=True, default=None)

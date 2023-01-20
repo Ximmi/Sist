@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block titulo %} {{title}} {% endblock %}
+{% block contenido %}
+{% load bootstrap4 %}
+{% load render_table from django_tables2 %}
+{% load static %}
+{%if user.is_authenticated %}
+<div class="row"><br /><br /></div>
+<div class="row">
+    <div class="col-sm-1">
+    </div>
+    
+    {% if retroactual == '1' %}
+    <div class="col-sm-2">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title text-center">{{ subtitulo }}</h5>
+            <form enctype="multipart/form-data" method="post" class="form">
+              <!--Verifica si es una petición válida-->
+              {% csrf_token %}
+              <!--Aquí cargamos el formulario-->
+              {% for field in form %}
+                  {% bootstrap_field field %}
+              {% endfor %}
+              {% buttons %}
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
+                {{boton}}
+              </button>
+            {% endbuttons %}
+            </form>
+          </div>
+        </div>
+      </div>
+
+      {% else %} <!--En caso de que ya cuente con retroalimentación-->
+      <p>Calificación: {{ retroactual.calificacion }}</p>
+      <p>Retroalimentación: {{ retroactual.comentario }}</p>
+      <br>
+      <a class="btn btn-light" id="edita" href ="#" style="border-radius: 20px;background-color: #6481ce">
+        Editar
+    </a>
+    {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->
+
+
+    <div class="col-sm-8">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title text-center">{{ subtitulo }}</h5>
+          <div class="table-responsive">
+            {% render_table tabla %}
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+{% else %}
+  <p>Por favor, inicia sesión para consultar los Estados Financieros y proyecciones</p>
+{% endif %}
+
+{% endblock %}
+
+<!-- Block javascript -->
+{% block javascript %}
+{% if js %}
+        <script src="{% static js|safe %}"></script>
+    {% endif %}
+{% endblock %}

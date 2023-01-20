@@ -33,6 +33,7 @@ urlpatterns = [
     path('estado/<pk>/', views.estado, name='estado'),
     path('estadotabla/<pk>/', views.estadotabla, name='estadotabla'),
     path('estadoformulaprofe/<pk>/<usu>/', views.estadoformulaprofe, name='estadoformulaprofe'),
+    path('estadoprofe/<pk>/<usu>/', views.estadoprofe, name='estadoprofe'),
     path('estadoformula/<pk>/', views.estadoformula, name='estadoformula'),
     path('edita_ingreso/<pk>/', views.edita_ingreso, name='edita_ingreso'),
     path('elimina_ingreso/<pk>/', views.elimina_ingreso, name='elimina_ingreso'),

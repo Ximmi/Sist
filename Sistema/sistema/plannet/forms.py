@@ -30,7 +30,10 @@ class  EditaProfesorForm(forms.ModelForm):
         fields = ['correo','foto']
 
 
-
+class EditaDefinicionForm(forms.ModelForm):
+    class Meta:
+        model = Definicion
+        fields = ['nombre', 'descripcion', 'tipo', 'clasificacion']
 
 class LoginForm(forms.Form):
     correo = forms.CharField(

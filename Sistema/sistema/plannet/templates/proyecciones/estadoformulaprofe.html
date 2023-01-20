@@ -15,9 +15,61 @@
           <div class="card-body">
             <h5 class="card-title text-center">{{ subtitulo }}</h5>
             <br><br>
-            <p>Nombre del proyecto: {{ definicion.nombre }}</p>
-            <p>Tipo: {{ definicion.tipo }}</p>
-            <p>Descripción: {{ definicion.descripcion }}</p>
+            {% if actividad == '1' %}
+              {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                <h6>El alumno no ha ingresado datos para esta actividad</h6>
+              {% else %}
+              <h6>Nombre del proyecto: {{ definicion.nombre }}</h6>
+              <h6>Tipo: {{ definicion.get_tipo_display }}</h6>
+              <h6>Descripción: {{ definicion.descripcion }}</h6>
+              <p>Actividad no encontrada</p>
+              {% endif %}
+
+            {% elif actividad == '2' %}
+              {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                <h6>El alumno no ha ingresado datos para esta actividad</h6>
+              {% else %}
+              <h6>Misión: {{ definicion.mision }}</h6>
+              <h6>Visión: {{ definicion.vision }}</h6>
+              <h6>Objetivo general: {{ definicion.objgeneral }}</h6>
+              <h6>Objetivos específicos: {{ definicion.objespecificos }}</h6>
+              {% endif %}
+            {% elif actividad == '8' %}
+              
+                {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                  <h6>El alumno no ha ingresado datos para esta actividad</h6>
+                {% else %}
+                  <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                {% endif %}
+            
+            {% elif actividad == '10' %}   
+
+                {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                  <h6>El alumno no ha ingresado datos para esta actividad</h6>
+                {% else %}
+                  <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                {% endif %}
+            
+            {% elif actividad == '11' %}
+
+                {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                  <h6>El alumno no ha ingresado datos para esta actividad</h6>
+                {% else %}
+                  <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                {% endif %}
+
+            {% elif actividad == '12' %}
+
+                {% if definicion == '0' %} <!--i el alumno no ha subido información-->
+                  <h6>El alumno no ha ingresado datos para esta actividad</h6>
+                {% else %}
+                  <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                {% endif %}
+
+
+            {% else %}
+              <p>Actividad no encontrada</p>
+            {% endif %}
           </div>
         </div>
       </div>
@@ -32,6 +84,7 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title text-center">Evaluación</h5>
+            {% if retroactual == '1' %} <!--No cuenta con con retroalimentación-->
             <form enctype="multipart/form-data" method="post" class="form">
               <!--Verifica si es una petición válida-->
               {% csrf_token %}
@@ -40,11 +93,19 @@
                   {% bootstrap_field field %}
               {% endfor %}
               {% buttons %}
-              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #90dec5; border-color: #90dec5;">
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">
                 {{boton}}
               </button>
             {% endbuttons %}
             </form>
+            {% else %} <!--En caso de que ya cuente con retroalimentación-->
+              <p>Calificación: {{ retroactual.calificacion }}</p>
+              <p>Retroalimentación: {{ retroactual.comentario }}</p>
+              <br>
+              <a class="btn btn-light" id="edita" href ="#" style="border-radius: 20px;background-color: #6481ce">
+                Editar
+            </a>
+            {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->
           </div>
         </div>
       </div>
