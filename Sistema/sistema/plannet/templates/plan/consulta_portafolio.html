@@ -32,13 +32,29 @@
         <br><br><br>
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title"></h5>
+            <h5 class="card-title">Reporta un portafolio</h5>
             <div class="row">
-              <div class="col-sm-3"></div>
-              <div class="col-sm-6">
-                <a href="#" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Reportar portafolio</a>
-              </div>
-              <div class="col-sm-3"></div>
+              
+              {% if retroactual == '1' %} <!--No cuenta con con retroalimentación-->
+            <form enctype="multipart/form-data" method="post" class="form">
+              <!--Verifica si es una petición válida-->
+              {% csrf_token %}
+              <!--Aquí cargamos el formulario-->
+              {% for field in form %}
+                  {% bootstrap_field field %}
+              {% endfor %}
+              {% buttons %}
+              <button type="submit" class="btn btn-light" style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">
+                Reportar
+              </button>
+            {% endbuttons %}
+            </form>
+            {% else %} <!--En caso de que ya cuente con retroalimentación-->
+              <p>El protafolio de evidencias ya ha sido reportado</p>
+              
+            {% endif %} <!--Cierre caso de que ya cuente con retroalimentación-->
+
+
             </div>
           </div>
         </div>

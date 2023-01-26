@@ -13,6 +13,8 @@
         <div class="card">
           <div class="card-body">
             <h5 class="card-title text-center">{{ subtitulo }}</h5>
+            {% if definicion == '0' %} <!--Si no hay info en la BD del estado de resultados-->
+            
             <form enctype="multipart/form-data" method="post" class="form">
               <!--Verifica si es una petición válida-->
               {% csrf_token %}
@@ -26,12 +28,73 @@
               </button>
             {% endbuttons %}
             </form>
+            {% else %} <!--Si sí hay info del estado de resultados-->
+                  {% if actividad == '1' %}
+                    <h6>Nombre del proyecto: {{ definicion.nombre }}</h6>
+                    <h6>Tipo: {{ definicion.get_tipo_display }}</h6>
+                    <h6>Descripción: {{ definicion.descripcion }}</h6>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% elif actividad == '2' %}
+                    <h6>Misión: {{ definicion.mision }}</h6>
+                    <h6>Visión: {{ definicion.vision }}</h6>
+                    <h6>Objetivo general: {{ definicion.objgeneral }}</h6>
+                    <h6>Objetivos específicos: {{ definicion.objespecificos }}</h6>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula2' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% elif actividad == '8' %}
+                    <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula8' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% elif actividad == '10' %}
+                    <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula10' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% elif actividad == '11' %}
+                    <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula11' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% elif actividad == '12' %}
+                    <a href="{{ definicion.archivo.url }}" class="btn btn-light" role="button" download style="border-radius: 20px;background-color: #6481ce; border-color: #6481ce;">Descargar archivo</a>
+                    <a class="btn btn-light" id="edita" href ="{% url 'editar_estadoformula12' user.id %}" style="border-radius: 20px;background-color: #6481ce">
+                      Editar
+                    </a>
+                  {% else %} <!--Sipor algun motivo la actividad no coincide-->
+                      <p>Actividad no encontrada</p>
+                  {% endif %} <!--Para la búsqueda de info sí registrada-->
+                  <br>
+            {% endif %} <!--sí hay info del estado de resultados-->
+
           </div>
         </div>
       </div>
 
     
   </div>
+<br><br><br>
+
+<div class="row">
+  <div class="col-sm-1"></div>
+  <div class="col-sm-10">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title text-center">Evaluación</h5>
+        {% if retroactual == '0' %} <!--No cuenta con con retroalimentación-->
+          <h6>El profesor no ha ingresado datos de retroalimentación ni calificación</h6>
+        {% else %}
+          <p>Calificación: {{ retroactual.calificacion }}</p>
+          <p>Retroalimentación: {{ retroactual.comentario }}</p>
+          <br>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>  <!--del row-->
 
 {% else %}
   <p>Por favor, inicia sesión para consultar los Estados Financieros y proyecciones</p>

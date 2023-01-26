@@ -13,7 +13,7 @@ class Usuarios(AbstractBaseUser, PermissionsMixin):
     apellido = models.CharField(max_length=50, verbose_name="Apellido", null=False)
     correo = models.EmailField(max_length=50, verbose_name="Correo", null=False, unique=True)
     foto = models.ImageField(upload_to='images/', verbose_name="Foto", null=True, default='')
-    num = models.CharField(max_length=50, verbose_name="Núm. de boleta o empleado", null= False)
+    num = models.CharField(max_length=50, verbose_name="Núm. de boleta", null= False)
     id_grupo = models.ForeignKey('Grupos', on_delete=models.CASCADE, blank=True, null=True)
     tipo = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1) 
     activo = models.BooleanField(default=False)
@@ -201,7 +201,7 @@ class GastoAdministracion(models.Model):
 
 class GastoVenta(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_GastoVenta',null=True, default=None)
-    gasto_venta = models.CharField(max_length=50, verbose_name="Descripción del gastode venta", null=True, blank=True)
+    gasto_venta = models.CharField(max_length=50, verbose_name="Descripción del gasto de venta", null=True, blank=True)
     unidad = models.CharField(max_length=50, verbose_name="Unidad de medida", null=True, blank=True)
     gasto_unidad = models.IntegerField( verbose_name="Gasto por unidad", null=True, blank=True)
     cantidad = models.IntegerField( verbose_name="Cantidad requerida", null=True, blank=True)
@@ -211,7 +211,7 @@ class GastoVenta(models.Model):
 
 class ManoObra(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_ManoObra',null=True, default=None)
-    puesto = models.CharField(max_length=50, verbose_name="Nombre del puesto", null=True, blank=True)
+    puesto = models.CharField(max_length=80, verbose_name="Nombre del puesto", null=True, blank=True)
     numero_trabajadores = models.IntegerField( verbose_name="Número de trabajadores", null=True, blank=True)
     pago_mensual = models.IntegerField( verbose_name="Pago mensual", null=True, blank=True)
     pago_anual = models.IntegerField( verbose_name="Pago anual", null=True, blank=True)
@@ -235,7 +235,7 @@ class EstadoResultados(models.Model):
 
 class Inversion(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Inversion',null=True, default=None)
-    tipo_inversion = models.CharField(max_length=50, verbose_name="Tipo de inversión", null=True, blank=True)
+    tipo_inversion = models.CharField(max_length=80, verbose_name="Tipo de inversión", null=True, blank=True)
     socios = models.IntegerField( verbose_name="Inversión de socios", null=True, blank=True, default=0)
     bancos = models.IntegerField( verbose_name="Inversión de bancos", null=True, blank=True, default=0)
     gobiernof = models.IntegerField( verbose_name="Inversión de gobierno federal", null=True, blank=True, default=0)
@@ -251,7 +251,7 @@ class Requerimientos(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Requerimientos',null=True, default=None)
     numero = models.IntegerField( verbose_name="Volumen de productos", null=True, blank=True)
     tipo_requerimiento = models.CharField(choices=CHOICES, null=True, blank=True, default=1, max_length=1)
-    Requerimiento = models.CharField(max_length=50, verbose_name="Descripción del requerimiento", null=True, blank=True)
+    Requerimiento = models.CharField(max_length=100, verbose_name="Descripción del requerimiento", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Requerimientos',null=True, default=None)
 
 class Gantt(models.Model):
@@ -296,5 +296,11 @@ class Documentacion(models.Model):
 class Retroalimentacion(models.Model):
     id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Retroalimentacion',null=True, default=None)
     calificacion = models.IntegerField( verbose_name="Calificación", null=True, blank=True)
-    comentario = models.CharField(max_length=50, verbose_name="Retroalimentación", null=True, blank=True)
+    comentario = models.CharField(max_length=200, verbose_name="Retroalimentación", null=True, blank=True)
     id_estado = models.ForeignKey('plannet.EstadosFinancieros', on_delete=models.CASCADE, related_name='Estado_Retroalimentacion',null=True, default=None)
+
+
+class Reportar(models.Model):
+    id_usuario = models.ForeignKey('plannet.Usuarios', on_delete=models.CASCADE, related_name='Usuario_Reportar',null=True, default=None)
+    motivo = models.CharField(max_length=100, verbose_name="Motivo", null=True, blank=True)
+

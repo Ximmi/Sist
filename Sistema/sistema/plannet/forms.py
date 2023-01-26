@@ -1,5 +1,5 @@
 from django import forms
-from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase
+from .models import Estudiante, GastoAdministracion, GastoVenta, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Envase, Reportar
 from .models import Grupos, Definicion, Objetivos, Requerimientos, Retroalimentacion, DisArquitectura, ActPruebas, ActDespliegue, Documentacion, Gantt
 from django.utils.safestring import mark_safe
 from django.contrib.auth import authenticate
@@ -39,6 +39,31 @@ class EditaDefinicionForm(forms.ModelForm):
     class Meta:
         model = Definicion
         fields = ['nombre', 'descripcion', 'tipo', 'clasificacion']
+
+class EditaObjetivosForm(forms.ModelForm):
+    class Meta:
+        model = Objetivos
+        fields = ['mision', 'vision', 'objgeneral', 'objespecificos']
+
+class EditaDisArquitecturaForm(forms.ModelForm):
+    class Meta:
+        model = DisArquitectura
+        fields = ['archivo']
+
+class EditaActPruebasForm(forms.ModelForm):
+    class Meta:
+        model = ActPruebas
+        fields = ['archivo']
+
+class EditaActDespliegueForm(forms.ModelForm):
+    class Meta:
+        model = ActDespliegue
+        fields = ['archivo']
+
+class EditaDocumentacionForm(forms.ModelForm):
+    class Meta:
+        model = Documentacion
+        fields = ['archivo']
 
 class LoginForm(forms.Form):
     correo = forms.CharField(
@@ -303,3 +328,14 @@ class AgregaRetroalimentacionForm(forms.ModelForm):
     class Meta:
         model = Retroalimentacion
         fields = ['calificacion', 'comentario']
+
+
+class AgregaReportarForm(forms.ModelForm):
+
+    motivo = forms.CharField(
+        label='Motivo',
+        required= True,
+    )
+    class Meta:
+        model = Reportar
+        fields = ['motivo']

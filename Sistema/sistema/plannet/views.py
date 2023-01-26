@@ -7,12 +7,12 @@ from urllib.request import Request
 from django.shortcuts import get_object_or_404, render, redirect
 from django.http import Http404, HttpResponse, HttpResponseNotFound, HttpResponseRedirect
 
-from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable, RetroalimentacionTable
+from .tables import EnvaseTable, GastoAdministracionTable, GastoVentaTable, GrupoTable, IngresosTable, InversionesTable, ManoObraTable, MaterialesTable, RequerimientosTable, GanttTable, RetroalimentacionTable, GrupoAlumnoTable
 from .models import Envase, EstadosFinancieros, GastoAdministracion, GastoVenta, Grupos, Ingresos, Inversion, ManoObra, Materiales, Profesor, Usuarios, Estudiante,  EstadosFinancieros
 from .forms import AgregaGastoAdministracionForm, AgregaGastoVentaForm, AgregaInversionesForm, AgregaManoObraForm, LoginForm, UsuarioForm, EditaProfesorForm, EditaEstudianteForm, GrupoForm, CreaGrupoForm, AgregaIngresosForm, AgregaMaterialesForm, AgregaEnvaseForm
-from .forms import EditaRetroalimentacionForm
+from .forms import EditaRetroalimentacionForm, EditaObjetivosForm, EditaDisArquitecturaForm, EditaActPruebasForm, EditaActDespliegueForm, EditaDocumentacionForm, AgregaReportarForm
 from .forms import AgregaDefinicionForm, AgregaOjetivoForm, AgregaRequerimientoForm, AgregaRetroalimentacionForm, AgregaDisArquitecturaForm, AgregaActPruebasForm, AgregaActDespliegueForm, AgregaDocumentacionForm, AgregaGanttForm, EditaDefinicionForm
-from .models import Definicion, Objetivos, Requerimientos, Retroalimentacion
+from .models import Definicion, Objetivos, Requerimientos, Retroalimentacion, DisArquitectura, ActPruebas, ActDespliegue, Documentacion, Reportar
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.db import IntegrityError, transaction
@@ -138,6 +138,83 @@ def editar_retro(request, pk):
             messages.success(request, "Calificación actualizada")
             return redirect('inicio')
     return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+def editar_estadoformula2(request,pk):
+    resacti = Objetivos.objects.get(id_usuario = pk)
+    formulario = EditaObjetivosForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+def editar_estadoformula8(request,pk):
+    resacti = DisArquitectura.objects.get(id_usuario = pk)
+    formulario = EditaDisArquitecturaForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+def editar_estadoformula10(request,pk):
+    resacti = ActPruebas.objects.get(id_usuario = pk)
+    formulario = EditaActPruebasForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+def editar_estadoformula11(request,pk):
+    resacti = ActDespliegue.objects.get(id_usuario = pk)
+    formulario = EditaActDespliegueForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+
+def editar_estadoformula12(request,pk):
+    resacti = Documentacion.objects.get(id_usuario = pk)
+    formulario = EditaDocumentacionForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+
+def editar_estadoformula(request,pk): #pk para id_usuario
+
+    resacti = Definicion.objects.get(id_usuario = pk)
+    formulario = EditaDefinicionForm(request.POST or None, request.FILES or None, instance = resacti)
+    if request.method == 'POST':
+        if formulario.is_valid():
+            resactimodificada = formulario.save()
+            #print(retroalimentacion)
+            resactimodificada.save()
+            messages.success(request, "Información actualizada")
+            return redirect('inicio')
+    return render(request, 'proyecciones/editar_retro.html', {'form': formulario, 'subtitulo': " ", 'boton': "Editar", 'title':"Editar retroalimentación"}) 
+
+
 
 def editar_perfil(request):
     print(request.user)
@@ -330,14 +407,33 @@ def genera_prediccion(request):
 
 def consulta_portafolio(request, pk):
     alumno = Usuarios.objects.get(pk=pk)
-    context = {'title':'Portafolio de evidencias', 'alumno': alumno}
+    from .models import Reportar
+    if Reportar.objects.filter(id_usuario=alumno.id).exists():
+        retroactual = Reportar.objects.get(id_usuario= alumno.id)
+        formulario = '0'
+    else:
+        retroactual = '1'
+        formulario = AgregaReportarForm(request.POST or None, request.FILES or None)
+        if formulario.is_valid():
+                from .models import Reportar
+                repo = Reportar.objects.model(
+                    id_usuario = alumno,
+                    motivo = formulario.cleaned_data['motivo']
+                )
+                repo.save()
+                messages.success(request, "Portafolio reportado")
+                #return HttpResponseRedirect(reverse('consulta_portafolio', args=(alumno.id)))
+
+    context = {'title':'Portafolio de evidencias', 'alumno': alumno, 'retroactual':retroactual, 'form':formulario}
     return render(request,'plan/consulta_portafolio.html', context)
 
 def ver_grupo(request, id_grupo):
     try:
         grupo = Grupos.objects.get(pk=id_grupo)
-        tabla = RetroalimentacionTable(Usuarios.objects.filter(id_grupo=id_grupo), per_page_field=5)
-        
+        if(request.user.tipo == '2'):
+            tabla = RetroalimentacionTable(Usuarios.objects.filter(id_grupo=id_grupo), per_page_field=5)
+        else: 
+            tabla = GrupoAlumnoTable(Usuarios.objects.filter(id_grupo=id_grupo), per_page_field=5)
     except Grupos.DoesNotExist:
         raise Http404("El grupo no existe")
     context = {'title': "Ver grupo",'subtitulo':grupo.nombre_grupo, 'tabla': tabla}
@@ -549,89 +645,151 @@ def estadoformula(request, pk):
         if(pk=='1'):
             print('info del request: ' + str(request.user) )
             print('id_grupo: ' + str(request.user.id_grupo) )
-            formulario = AgregaDefinicionForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import Definicion
-                definicion = Definicion.objects.model(
-                   id_usuario = request.user,
-                   nombre = formulario.cleaned_data['nombre'],
-                   tipo = formulario.cleaned_data['tipo'],
-                   descripcion = formulario.cleaned_data['descripcion'],
-                   clasificacion = formulario.cleaned_data['clasificacion'],
-                   id_grupo = request.user.id_grupo,
-                   id_estado = estado
-                )
-                definicion.save()
-                messages.success(request, "Definición del negocio agregada")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '1'
+            from .models import Definicion, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if Definicion.objects.filter(id_usuario= request.user.id).exists():
+                definicion = Definicion.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else: 
+                definicion = '0' #no existe definición
+                formulario = AgregaDefinicionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Definicion
+                    definicion = Definicion.objects.model(
+                    id_usuario = request.user,
+                    nombre = formulario.cleaned_data['nombre'],
+                    tipo = formulario.cleaned_data['tipo'],
+                    descripcion = formulario.cleaned_data['descripcion'],
+                    clasificacion = formulario.cleaned_data['clasificacion'],
+                    id_grupo = request.user.id_grupo,
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Definición del negocio agregada")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
         elif (pk=='2'):
-            formulario = AgregaOjetivoForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import Objetivos
-                objetivos = Objetivos.objects.model(
-                   id_usuario = request.user,
-                   mision = formulario.cleaned_data['mision'],
-                   vision = formulario.cleaned_data['vision'],
-                   objgeneral = formulario.cleaned_data['objgeneral'],
-                   objespecificos = formulario.cleaned_data['objespecificos'],
-                   id_estado = estado
-                )
-                objetivos.save()
-                messages.success(request, "Misión, Visión u Objetivos agregados")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '2'
+            from .models import Objetivos, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if Objetivos.objects.filter(id_usuario= request.user.id).exists():
+                definicion = Objetivos.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else:
+                definicion = '0'
+                formulario = AgregaOjetivoForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():  
+                    definicion = Objetivos.objects.model(
+                    id_usuario = request.user,
+                    mision = formulario.cleaned_data['mision'],
+                    vision = formulario.cleaned_data['vision'],
+                    objgeneral = formulario.cleaned_data['objgeneral'],
+                    objespecificos = formulario.cleaned_data['objespecificos'],
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Misión, Visión u Objetivos agregados")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
 
         elif (pk=='8'):
-            formulario = AgregaDisArquitecturaForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import DisArquitectura
-                arquitectura = DisArquitectura.objects.model(
-                   id_usuario = request.user,
-                   archivo = formulario.cleaned_data['archivo'],
-                   id_estado = estado
-                )
-                arquitectura.save()
-                messages.success(request, "Archivo del Diseño de la arquitectura agregado")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '8'
+            from .models import DisArquitectura, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if DisArquitectura.objects.filter(id_usuario= request.user.id).exists():
+                definicion = DisArquitectura.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else: 
+                definicion = '0' #no existe definición
+                formulario = AgregaDisArquitecturaForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    definicion = DisArquitectura.objects.model(
+                    id_usuario = request.user,
+                    archivo = formulario.cleaned_data['archivo'],
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Archivo del Diseño de la arquitectura agregado")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
         elif (pk=='10'):
-            formulario = AgregaActPruebasForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import ActPruebas
-                actividad = ActPruebas.objects.model(
-                   id_usuario = request.user,
-                   archivo = formulario.cleaned_data['archivo'],
-                   id_estado = estado
-                )
-                actividad.save()
-                messages.success(request, "Archivo de las actividades para la programación agregado")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '10'
+            from .models import ActPruebas, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if ActPruebas.objects.filter(id_usuario= request.user.id).exists():
+                definicion = ActPruebas.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else: 
+                definicion = '0' #no existe definición
+                formulario = AgregaActPruebasForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    definicion = ActPruebas.objects.model(
+                    id_usuario = request.user,
+                    archivo = formulario.cleaned_data['archivo'],
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Archivo de las actividades para la programación agregado")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
         elif (pk=='11'):
-            formulario = AgregaActDespliegueForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import ActDespliegue
-                actividad = ActDespliegue.objects.model(
-                   id_usuario = request.user,
-                   archivo = formulario.cleaned_data['archivo'],
-                   id_estado = estado
-                )
-                actividad.save()
-                messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '11'
+            from .models import ActDespliegue, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if ActDespliegue.objects.filter(id_usuario= request.user.id).exists():
+                definicion = ActDespliegue.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else: 
+                definicion = '0' #no existe definición
+                formulario = AgregaActDespliegueForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    definicion = ActDespliegue.objects.model(
+                    id_usuario = request.user,
+                    archivo = formulario.cleaned_data['archivo'],
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
         elif (pk=='12'):
-            formulario = AgregaActDespliegueForm(request.POST or None, request.FILES or None)
-            if formulario.is_valid():
-                from .models import ActDespliegue
-                actividad = ActDespliegue.objects.model(
-                   id_usuario = request.user,
-                   archivo = formulario.cleaned_data['archivo'],
-                   id_estado = estado
-                )
-                actividad.save()
-                messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
-                return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
+            actividad = '12'
+            from .models import Documentacion, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
+            if Documentacion.objects.filter(id_usuario= request.user.id).exists():
+                definicion = Documentacion.objects.get(id_usuario= request.user.id)
+                formulario = '0' #no se muestra el formulario
+            else: 
+                definicion = '0' #no existe definición
+                formulario = AgregaDocumentacionForm(request.POST or None, request.FILES or None)
+                if formulario.is_valid():
+                    from .models import Documentacion
+                    definicion = Documentacion.objects.model(
+                    id_usuario = request.user,
+                    archivo = formulario.cleaned_data['archivo'],
+                    id_estado = estado
+                    )
+                    definicion.save()
+                    messages.success(request, "Archivo de las actividades para las pruebas e implementación agregado")
+                    return HttpResponseRedirect(reverse('estadoformula', args=(estado.id,)))
 
     except EstadosFinancieros.DoesNotExist:
         raise Http404("El Estado Financiero no existe") 
-    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado,  'form':formulario, 'boton': "Entregar"}
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado,  'form':formulario, 'boton': "Entregar", 'retroactual':retroactual, 'definicion':definicion, 'actividad':actividad}
     return render(request,'proyecciones/estadoformula.html', context)
 
 ##Los de las TABLAS
@@ -640,7 +798,11 @@ def estado(request, pk):
         estado = EstadosFinancieros.objects.get(pk=pk)
         if(pk=='6'): #Financiamiento fase 2
             js='/js/EstadosFinancieros/inversiones.js'
-            from .models import Inversion
+            from .models import Inversion, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
             tabla = InversionesTable(Inversion.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
             formulario = AgregaInversionesForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
@@ -660,7 +822,11 @@ def estado(request, pk):
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
         elif(pk=='15'): #Ingresos fase 4
             js='/js/EstadosFinancieros/ingresos.js'
-            from .models import Ingresos
+            from .models import Ingresos, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
             tabla = IngresosTable(Ingresos.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
             formulario = AgregaIngresosForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
@@ -677,7 +843,11 @@ def estado(request, pk):
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
         elif(pk == '3'): #Caracteristicas del producto fase 1
             js='/js/EstadosFinancieros/materiales.js'
-            from .models import Materiales
+            from .models import Materiales, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
             tabla = MaterialesTable(Materiales.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
             formulario = AgregaMaterialesForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
@@ -696,7 +866,11 @@ def estado(request, pk):
         
         elif(pk == '5'):
             js='/js/EstadosFinancieros/gastosventa.js'
-            from .models import GastoVenta
+            from .models import GastoVenta, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
             tabla = GastoVentaTable(GastoVenta.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
             formulario = AgregaGastoVentaForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
@@ -714,7 +888,11 @@ def estado(request, pk):
                 return HttpResponseRedirect(reverse('estado', args=(estado.id,)))
         elif(pk == '4'): # presupuesto de mano de obra fase 1
             js='/js/EstadosFinancieros/manoobra.js'
-            from .models import ManoObra
+            from .models import ManoObra, Retroalimentacion
+            if Retroalimentacion.objects.filter(id_usuario= request.user.id, id_estado = estado.id).exists():
+                retroactual = Retroalimentacion.objects.get(id_usuario= request.user.id, id_estado = estado.id)
+            else:
+                retroactual = '0'
             tabla = ManoObraTable(ManoObra.objects.filter(id_estado=estado, id_usuario = request.user), per_page_field=5)
             formulario = AgregaManoObraForm(request.POST or None, request.FILES or None)
             if formulario.is_valid():
@@ -734,7 +912,7 @@ def estado(request, pk):
 
     except EstadosFinancieros.DoesNotExist:
         raise Http404("El Estado Financiero no existe")
-    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar", 'js':js}
+    context = {'title': estado.nombre_estado,'subtitulo':estado.nombre_estado, 'tabla': tabla, 'form':formulario, 'boton': "Entregar", 'js':js, 'retroactual':retroactual}
     return render(request,'proyecciones/estado.html', context)
 
 
@@ -1020,7 +1198,7 @@ def estadoprofe(request, pk, usu):
                     return HttpResponseRedirect(reverse('estadoprofe', args=(estado.id,alumno.id)))
         elif(pk == '4'): # presupuesto de mano de obra fase 1
             js='/js/EstadosFinancieros/manoobra.js'
-            from .models import ManoObra
+            from .models import ManoObra, Retroalimentacion
             tabla = ManoObraTable(ManoObra.objects.filter(id_estado=estado, id_usuario = alumno.id), per_page_field=5)
             if Retroalimentacion.objects.filter(id_usuario= alumno.id, id_estado = estado.id).exists():
                 retroactual = Retroalimentacion.objects.get(id_usuario= alumno.id, id_estado = estado.id)

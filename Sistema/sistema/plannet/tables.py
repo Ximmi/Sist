@@ -42,6 +42,18 @@ class GrupoTable(tables.Table):
             print('cayo en el else')
 
 
+class GrupoAlumnoTable(tables.Table):
+                                 
+    class Meta:
+        model = Usuarios
+        template_name = "django_tables2/bootstrap4.html"
+        fields = ("foto","nombre", "apellido", "num" ) 
+        attrs = {"class": "table table-hover"}
+
+    def render_foto(self, value):
+        return format_html("<img src=\"/images/{}\" class=\"rounded-circle\" height=\"30\" width=\"30\">", value)
+
+
 
 class IngresosTable(tables.Table):
     editar = tables.LinkColumn("edita_ingreso",
